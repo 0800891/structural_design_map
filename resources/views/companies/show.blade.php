@@ -9,9 +9,28 @@
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
           <div class="p-6 text-gray-900 dark:text-gray-100">
-            <a href="{{ route('companies.index') }}" class="text-blue-500 hover:text-blue-700 mr-2">一覧に戻る</a>
-            <p class="text-gray-800 dark:text-gray-300 text-lg">{{ $company->id }}</p>
-            <p class="text-gray-600 dark:text-gray-400 text-sm">Company Name: {{ $company->name }}</p>
+            <a href="{{ route('companies.index') }}" class="text-blue-500 hover:text-blue-700 mr-2">Company一覧に戻る</a>
+            {{-- <p class="text-gray-800 dark:text-gray-300 text-lg">{{ $company->id }}</p> --}}
+            <p class="text-gray-600 dark:text-gray-400 text-lg">Company Name: {{ $company->name }}</p>
+           
+            <div class="py-12">
+              <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                  <div class="p-6 text-gray-900 dark:text-gray-100">
+                  @foreach($projects as $project)
+                    @if($company->id === $project->company_id)
+                      <div class="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                         {{-- <p class="text-gray-800 dark:text-gray-300">{{ $project->name }}</p> --}}
+                         <p class="text-gray-600 dark:text-gray-400 text-sm">Project名:{{$project->name}} </p>
+                         <a href="{{ route('projects.show', $project) }}" class="text-blue-500 hover:text-blue-700">詳細を見る</a>
+                      </div>
+                      @else
+                    @endif
+                  @endforeach
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="text-gray-600 dark:text-gray-400 text-sm">
               <p>作成日時: {{ $company->created_at->format('Y-m-d H:i') }}</p>
               <p>更新日時: {{ $company->updated_at->format('Y-m-d H:i') }}</p>

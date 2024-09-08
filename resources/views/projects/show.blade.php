@@ -11,9 +11,13 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
       <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6 text-gray-900 dark:text-gray-100">
-          <a href="{{ route('projects.index') }}" class="text-blue-500 hover:text-blue-700 mr-2">一覧に戻る</a>
-          <p class="text-gray-800 dark:text-gray-300 text-lg">{{ $project->id }}</p>
-          <p class="text-gray-600 dark:text-gray-400 text-sm">Project Name: {{ $project->name }}</p>
+          <a href="{{ route('projects.index') }}" class="text-blue-500 hover:text-blue-700 mr-2 text-sm">Project一覧に戻る</a>
+          <p class="text-gray-800 dark:text-gray-300 text-lg hidden">{{ $project->id }}</p>
+          <p class="text-gray-600 dark:text-gray-400 text-lg">{{ $project->name }}</p>
+          <a href="{{ route('companies.show', $company) }}" class="text-blue-500 hover:text-blue-700">Designed By: {{$project->company->name}}</a>
+          <p class="text-gray-600 dark:text-gray-400 text-sm">Address: {{ $project->address }}</p>
+          <p class="text-gray-600 dark:text-gray-400 text-sm">Completion: {{ $project->completion }}</p>
+          <p class="text-gray-600 dark:text-gray-400 text-sm">Design_Story: {{ $project->design_story }}</p>
 
           <div class="mt-4">
             <h3>Project Images</h3>
@@ -34,6 +38,7 @@
             <p>作成日時: {{ $project->created_at->format('Y-m-d H:i') }}</p>
             <p>更新日時: {{ $project->updated_at->format('Y-m-d H:i') }}</p>
           </div>
+        </form>
            <!--もしログインしている人のcompany idとprojectのidが一緒の場合-->
           @if (auth()->user()->company_id === $project->company_id)
           <div class="flex mt-4">

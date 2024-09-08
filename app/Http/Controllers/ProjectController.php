@@ -30,11 +30,6 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        // $request ->validate([
-        //     'tweet' => 'required|max:255',
-        //     ]);
-        
-
         $request->validate([
             'name' => 'required|max:255',
             'address' => 'required|max:255',
@@ -48,11 +43,7 @@ class ProjectController extends Controller
 
         $dir='img';
 
-        // Store the files and get their filenames
-        // $file_name_01 = $request->file('picture_01_link')->store('public/' . $dir);
-        // $file_name_02 = $request->file('picture_02_link')->store('public/' . $dir);
-        // $file_name_03 = $request->file('picture_03_link')->store('public/' . $dir);
-        // Handle the first image upload
+        
     if ($request->hasFile('picture_01_link')) {
         $file_01 = $request->file('picture_01_link');
         $file_name_01 = time().'_'.$file_01->getClientOriginalName();
@@ -123,23 +114,53 @@ class ProjectController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255',
-            'address'=>'required|max:255',
-            'completion'=>'required|integer',
-            'company_id'=>'required|integer',
-            'design_story'=>'required',
-            ]);
+            'address' => 'required|max:255',
+            'completion' => 'required|integer',
+            'company_id' => 'required|integer',
+            'design_story' => 'required',
+        ]);
     
-            // $project->update($request->only('name'));
-            $project->update($request->only(['name','address','completion','company_id','design_story','picture_01_link','picture_02_link','picture_03_link']));
+        $dir='img';
+        $updateData = [
+            'name' => $request->name,
+            'address' => $request->address,
+            'completion' => $request->completion,
+            'design_story' => $request->design_story,
+        ];
     
-            return redirect()->route('projects.show', $project);
+        if ($request->hasFile('picture_01_link')) {
+            $file_01 = $request->file('picture_01_link');
+            $file_name_01 = time().'_'.$file_01->getClientOriginalName();
+            $file_01->storeAs('public/' . $dir, $file_name_01);
+            $updateData['picture_01_link'] = '/storage/' . $dir . '/' . $file_name_01;
         }
+    
+        if ($request->hasFile('picture_02_link')) {
+            $file_02 = $request->file('picture_02_link');
+            $file_name_02 = time().'_'.$file_02->getClientOriginalName();
+            $file_02->storeAs('public/' . $dir, $file_name_02);
+            $updateData['picture_02_link'] = '/storage/' . $dir . '/' . $file_name_02;
+        }
+    
+        if ($request->hasFile('picture_03_link')) {
+            $file_03 = $request->file('picture_03_link');
+            $file_name_03 = time().'_'.$file_03->getClientOriginalName();
+            $file_03->storeAs('public/' . $dir, $file_name_03);
+            $updateData['picture_03_link'] = '/storage/' . $dir . '/' . $file_name_03;
+        }
+    
+        $project->update($updateData);
+    
+        return redirect()->route('projects.show', $project);
+    }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Project $project)
     {
-       //
+        $project->delete();
+
+        return redirect()->route('projects.index');
     }
 }

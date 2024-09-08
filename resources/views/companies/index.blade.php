@@ -10,11 +10,13 @@
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
           <div class="p-6 text-gray-900 dark:text-gray-100">
             @foreach ($companies as $company)
+            @if($company->id!=1)
             <div class="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
               <p class="text-gray-800 dark:text-gray-300">{{ $company->company }}</p>
               <p class="text-gray-600 dark:text-gray-400 text-sm">Company Name: {{ $company->name }}</p>
               <a href="{{ route('companies.show', $company) }}" class="text-blue-500 hover:text-blue-700">詳細を見る</a>
             </div>
+            @endif
             @endforeach
           </div>
         </div>
