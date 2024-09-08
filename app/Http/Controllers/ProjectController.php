@@ -33,17 +33,63 @@ class ProjectController extends Controller
         // $request ->validate([
         //     'tweet' => 'required|max:255',
         //     ]);
+        
+
+        $request->validate([
+            'name' => 'required|max:255',
+            'address' => 'required|max:255',
+            'completion' => 'required|integer',
+            'company_id' => 'required|integer',
+            'design_story' => 'required',
+            'picture_01_link' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
+            'picture_02_link' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
+            'picture_03_link' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $dir='img';
+
+        // Store the files and get their filenames
+        // $file_name_01 = $request->file('picture_01_link')->store('public/' . $dir);
+        // $file_name_02 = $request->file('picture_02_link')->store('public/' . $dir);
+        // $file_name_03 = $request->file('picture_03_link')->store('public/' . $dir);
+        // Handle the first image upload
+    if ($request->hasFile('picture_01_link')) {
+        $file_01 = $request->file('picture_01_link');
+        $file_name_01 = time().'_'.$file_01->getClientOriginalName();
+        $file_01->storeAs('public/' . $dir, $file_name_01);
+    } else {
+        $file_name_01 = null;
+    }
+
+    // Handle the second image upload
+    if ($request->hasFile('picture_02_link')) {
+        $file_02 = $request->file('picture_02_link');
+        $file_name_02 = time().'_'.$file_02->getClientOriginalName();
+        $file_02->storeAs('public/' . $dir, $file_name_02);
+    } else {
+        $file_name_02 = null;
+    }
+
+    // Handle the third image upload
+    if ($request->hasFile('picture_03_link')) {
+        $file_03 = $request->file('picture_03_link');
+        $file_name_03 = time().'_'.$file_03->getClientOriginalName();
+        $file_03->storeAs('public/' . $dir, $file_name_03);
+    } else {
+        $file_name_03 = null;
+    }
+
         $project = Project::create([
             'name' => $request->name,
             'address' => $request->address,
             'completion'=>$request->completion,
             'company_id'=>$request->company_id,
             'design_story'=>$request->design_story,
-            'picture_01_link'=>$request->picture_01_link,
-            'picture_02_link'=>$request->picture_02_link,
-            'picture_03_link'=>$request->picture_03_link
+            'picture_01_link' => $file_name_01 ? '/storage/' . $dir . '/' . $file_name_01 : null,
+            'picture_02_link' => $file_name_02 ? '/storage/' . $dir . '/' . $file_name_02 : null,
+            'picture_03_link' => $file_name_03 ? '/storage/' . $dir . '/' . $file_name_03 : null,
                     ]);   
-                    
+
         // return redirect() -> route('projects.index');
         return back();
     }

@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::post('projects', [ProjectController::class,'store'])->name('projects.store');
+    // Route::post('/projects/store', [ProjectController::class,'store'])->name('projects.store');
 
     Route::post('companies', [CompanyController::class,'store'])->name('companies.store');;
 });

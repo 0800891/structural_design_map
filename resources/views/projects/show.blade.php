@@ -14,6 +14,22 @@
           <a href="{{ route('projects.index') }}" class="text-blue-500 hover:text-blue-700 mr-2">一覧に戻る</a>
           <p class="text-gray-800 dark:text-gray-300 text-lg">{{ $project->id }}</p>
           <p class="text-gray-600 dark:text-gray-400 text-sm">Project Name: {{ $project->name }}</p>
+
+          <div class="mt-4">
+            <h3>Project Images</h3>
+            <div class="flex space-x-4">
+                @if($project->picture_01_link)
+                    <img src="{{ asset($project->picture_01_link) }}" alt="Picture 01" class="w-32 h-32 object-cover">
+                @endif
+                @if($project->picture_02_link)
+                    <img src="{{ asset($project->picture_02_link) }}" alt="Picture 02" class="w-32 h-32 object-cover">
+                @endif
+                @if($project->picture_03_link)
+                    <img src="{{ asset($project->picture_03_link) }}" alt="Picture 03" class="w-32 h-32 object-cover">
+                @endif
+            </div>
+          </div>
+          
           <div class="text-gray-600 dark:text-gray-400 text-sm">
             <p>作成日時: {{ $project->created_at->format('Y-m-d H:i') }}</p>
             <p>更新日時: {{ $project->updated_at->format('Y-m-d H:i') }}</p>
