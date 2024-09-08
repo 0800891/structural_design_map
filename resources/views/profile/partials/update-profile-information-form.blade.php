@@ -47,6 +47,26 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="company_id" :value="__('Company')" />
+            {{-- <p lass="mt-2 font-medium" >{{ $user->company->name }}</p> --}}
+            <select id="company_id" name="company_id" class="mt-1 block w-full" required autocomplete="company_id">
+            {{-- <x-text-input id="company_id" name="company_id" class="mt-1 block w-full"  :value="old('company_id', $user->company_id)" required autocomplete="company_id"/> --}}
+            {{-- <x-text-input id="company_id" name="company_id" type="" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />--}}
+            {{-- $company_id_list=[]; --}}
+            
+            @foreach($companies as $company)
+                {{-- array_push($company_id_list,$company->id); --}}
+                {{-- <option value="{{ $company->id }}">{{ $company->name }}</option> --}}
+                <option value="{{ $company->id }}" {{ $company->id == $user->company_id? 'selected':'' }}>
+                    {{$company->name}}
+                </option>
+            @endforeach
+            </select>
+                {{-- <x-select-box/:options="company_id_list"> --}}
+            <x-input-error class="mt-2" :messages="$errors->get('company_id')" />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 

@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
+use App\Http\Controllers\CompanyController;
+use App\Models\Company;
+
 class ProfileController extends Controller
 {
     /**
@@ -16,9 +19,11 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        // Eager load the 'company' relation on the user model
+        $user = $request->user()->load('company');
+        $companies = Company::all();
+
+        return view('profile.edit', compact('user', 'companies'));
     }
 
     /**
@@ -26,13 +31,22 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'company_id' => 'required|exists:companies,id', 
+        ]);
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->company_id = $request->company_id;
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

@@ -11,15 +11,15 @@
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
           <div class="p-6 text-gray-900 dark:text-gray-100">
-            <a href="{{ route('commpanies.index') }}" class="text-blue-500 hover:text-blue-700 mr-2">一覧に戻る</a>
-            <p class="text-gray-800 dark:text-gray-300 text-lg">{{ $company->company }}</p>
-            <p class="text-gray-600 dark:text-gray-400 text-sm">Company Name: {{ $company }}</p>
+            <a href="{{ route('companies.index') }}" class="text-blue-500 hover:text-blue-700 mr-2">一覧に戻る</a>
+            <p class="text-gray-800 dark:text-gray-300 text-lg">{{ $company->id }}</p>
+            <p class="text-gray-600 dark:text-gray-400 text-sm">Company Name: {{ $company->name }}</p>
             <div class="text-gray-600 dark:text-gray-400 text-sm">
               <p>作成日時: {{ $company->created_at->format('Y-m-d H:i') }}</p>
               <p>更新日時: {{ $company->updated_at->format('Y-m-d H:i') }}</p>
             </div>
              <!--もしログインしている人のidとtweetした人のidが一緒の場合-->
-            @if (auth()->company_id() === $company->id)
+            @if (auth()->user()->company_id === $project->company_id)
             <div class="flex mt-4">
               <a href="{{ route('companies.edit', $company) }}" class="text-blue-500 hover:text-blue-700 mr-2">編集</a>
               <form action="{{ route('companies.destroy', $company) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');">

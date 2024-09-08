@@ -6,7 +6,12 @@
         {{ __('Project登録') }}
       </h2>
     </x-slot>
-  
+  @if(auth()->user()->company_id ==1)
+  <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+  会社が登録されていないとプロジェクトの登録はできません<br>
+  Profileから会社名を登録してください
+  </div>
+  @else
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -23,6 +28,7 @@
                 <input type="file" id="img_01" name="picture_01_link" required><br>
                 <input type="file" id="img_02" name="picture_02_link" required><br>
                 <input type="file" id="img_03" name="picture_03_link" required><br>
+                <p id="company_id", name="company_id" hidden>{{auth()->user()->company_id}}</p>
                 @error('project')
                 <span class="text-red-500 text-xs italic">{{ $message }}</span>
                 @enderror
@@ -33,4 +39,5 @@
         </div>
       </div>
     </div>
+    @endif
   </x-app-layout>
