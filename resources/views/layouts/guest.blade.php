@@ -16,10 +16,14 @@
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0" style="background-color:rgb(236,230,198)">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
+            <div class=" grid grid-cols-3" >
+                <div></div>
+                <div class="flex items-end justify-center mx-auto w-full">
+                    <a href="/" class="flex items-center justify-center">
+                        <x-application-logo class=" text-gray-500" />
+                    </a>
+                </div>
+                <div></div>
             </div>
 
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">

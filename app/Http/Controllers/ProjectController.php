@@ -67,7 +67,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('projects.edit', compact('project'));
     }
 
     /**
@@ -75,8 +75,19 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
-    }
+        $request->validate([
+            'name' => 'required|max:255',
+            'address'=>'required|max:255',
+            'completion'=>'required|integer',
+            'company_id'=>'required|integer',
+            'design_story'=>'required',
+            ]);
+    
+            // $project->update($request->only('name'));
+            $project->update($request->only(['name','address','completion','company_id','design_story','picture_01_link','picture_02_link','picture_03_link']));
+    
+            return redirect()->route('projects.show', $project);
+        }
 
     /**
      * Remove the specified resource from storage.

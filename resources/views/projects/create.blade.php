@@ -28,7 +28,7 @@
                 <input type="file" id="img_01" name="picture_01_link" required><br>
                 <input type="file" id="img_02" name="picture_02_link" required><br>
                 <input type="file" id="img_03" name="picture_03_link" required><br>
-                <p id="company_id", name="company_id" hidden>{{auth()->user()->company_id}}</p>
+                <input type="integer" id="company_id", name="company_id" value={{auth()->user()->company_id}} hidden>
                 @error('project')
                 <span class="text-red-500 text-xs italic">{{ $message }}</span>
                 @enderror

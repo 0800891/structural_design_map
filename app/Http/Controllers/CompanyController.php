@@ -44,7 +44,7 @@ class CompanyController extends Controller
     public function show(Company $company)
     {
         // $company -> load('companies');
-        $company = Company::all();
+        // $company = Company::all();
         return view('companies.show', compact('company'));
     }
 
@@ -53,7 +53,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        //
+        return view('companies.edit', compact('company'));
     }
 
     /**
@@ -61,7 +61,14 @@ class CompanyController extends Controller
      */
     public function update(Request $request, Company $company)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255',
+            ]);
+    
+            $company->update($request->only('name'));
+    
+            return redirect()->route('companies.show', $company);
+            
     }
 
     /**
@@ -69,6 +76,8 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-       //
+        $company->delete();
+
+        return redirect()->route('companies.index');
     }
 }
