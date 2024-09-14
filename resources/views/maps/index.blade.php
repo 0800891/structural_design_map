@@ -59,6 +59,8 @@
                     
                         async function initMap() {
                             let markerData = []; // Define your markerData here
+                            let marker =[];
+                            let infoWindow =[];
                     
                             // Prepare the list of promises for fetching coordinates
                             let promises = phpArray_project.map(project => getCoordinates(project.address));
@@ -76,11 +78,11 @@
                                     dc_image: phpArray_project[i].picture_01_link,
                                     lat: coordinates[i][0],
                                     lng: coordinates[i][1],
-                                    icon: phpArray_project[i].picture_01_link
+                                    icon: phpArray_project[i].picture_02_link
                                 };
                             }
                     
-                            // Map initialization logic
+                            // // Map initialization logic
                             if (markerData.length === 1) {
                                 console.log("initMap_type1");
                                 var mapLatLng = new google.maps.LatLng({lat: markerData[0]['lat'], lng: markerData[0]['lng']}); 
@@ -90,43 +92,61 @@
                                 });
                             } else {
                                 console.log("initMap_type2");
-                                var mapLatLng = new google.maps.LatLng({lat: markerData.slice(-1)[0]['lat'], lng: markerData.slice(-1)[0]['lng']}); 
+                                
+                                var mapLatLng = new google.maps.LatLng({lat: markerData[0]['lat'], lng: markerData[0]['lng']}); 
                                 var map = new google.maps.Map(document.getElementById('map'), {
                                     center: mapLatLng, 
                                     zoom: 15 
                                 });
                             }
-                    
+                        
                             // Add markers
                             for (var i = 0; i < markerData.length; i++) {
                                 var markerLatLng = new google.maps.LatLng({lat: markerData[i]['lat'], lng: markerData[i]['lng']});
-                                var marker = new google.maps.Marker({
+                                marker[i] = new google.maps.Marker({
                                     position: markerLatLng,
                                     map: map
                                 });
                                 var assetBaseUrl = "{{ asset('') }}";
+                                assetBaseUrl = assetBaseUrl.replace(/\/$/, "");
                                 var temp = markerData[i]['name'] + '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:20%">';
-                                console.log(assetBaseUrl + markerData[i]['icon']);
-                                var infoWindow = new google.maps.InfoWindow({
+                                for (var j=0;j < i; j++){
+                                    if(markerData[j]['Building_name']==markerData[i]['Building_name']){
+                                    temp = temp + '<br>' + markerData[j]['name']+'<div><img src="' + assetBaseUrl + markerData[j]['icon'] + '" style="width:20%"></div>'
+                                    }
+                                }
+                                infoWindow[i] = new google.maps.InfoWindow({
                                     content: '<div>建物名称:' + markerData[i]['Building_name'] + '</div>' +
                                              '<div>Structural Design Code:' + markerData[i]['design_code'] + 
                                              '<img src="' + assetBaseUrl + markerData[i]['dc_image'] + '" style="width:50%"></div>' + 
                                              '<div class="map">構造設計者名:<br>' + temp + '</div>'
                                 });
-                    
-                                marker.addListener('click', function() {
-                                    infoWindow.open(map, marker);
+                                marker[i].setOptions({// TAM 東京のマーカーのオプション設定
+                                icon: {
+                                        //  url: markerData[i]['icon'],
+                                        url:assetBaseUrl + markerData[i]['dc_image'],
+                                        scaledSize: new google.maps.Size(30, 30)
+                                        },
+                                optimized: false 
                                 });
+                                markerEvent(i);
+                                }
+
+                                function markerEvent(i) {
+                                marker[i].addListener('click', function() { // マーカーをクリックしたとき
+                                infoWindow[i].open(map, marker[i]); // 吹き出しの表示
+                                });
+                                }
                             }
-                        }
+                        
                     
                         // Ensure initMap is called after everything is set up
                         initMap();
                     </script>
                     
-
-                    {{-- <script src="{{ asset('/js/showmap.js') }}"></script> --}}
-                    <script type="module" src={{"/js/index.js"}}></script>
+{{-- 
+                    <script src="{{ asset('/js/showmap.js') }}"></script>
+                    <script type="module" src={{"/js/index.js"}}></script> --}}
                     {{-- <script>var google_map_api = Google_map('{{ config('services.google_map.gm_api_key') }}');</script> --}}
                     <script async defer
                         src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_map.gm_api_key') }}&callback=initMap">
