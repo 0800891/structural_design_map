@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\MapController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,12 +21,15 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('companies', CompanyController::class);
     Route::resource('projects', ProjectController::class);
+    Route::resource('maps',MapController::class);
 
 
     Route::post('projects', [ProjectController::class,'store'])->name('projects.store');
     // Route::post('/projects/store', [ProjectController::class,'store'])->name('projects.store');
 
-    Route::post('companies', [CompanyController::class,'store'])->name('companies.store');;
+    Route::post('companies', [CompanyController::class,'store'])->name('companies.store');
+
+    Route::post('maps',[MapController::class,'index'])->name('maps.index');
 });
 
 require __DIR__.'/auth.php';

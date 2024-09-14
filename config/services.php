@@ -35,4 +35,7 @@ return [
         ],
     ],
 
+    'google_map' =>[
+        'gm_api_key'=>env('GOOGLE_MAP_API_SECRET'), 
+    ],
 ];
