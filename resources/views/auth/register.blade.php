@@ -45,7 +45,7 @@
             <select id="company_id" name="company_id" class="block mt-1 w-full">
                 @if(isset($commpanies))
                     @foreach($companies as $company)
-                        <option value="{{ $company->id }}">{{ $company->name }}</option>
+                        <option id=1 value="{{ $company->id }}">{{ $company->name }}</option>
                     @endforeach
                 @else
                     <option value=1>NONE</option>
