@@ -19,7 +19,7 @@
             <div class=" grid grid-cols-3" >
                 <div></div>
                 <div class="flex items-end justify-center mx-auto w-full">
-                    <a href="/" class="flex items-center justify-center">
+                    <a href="/sdm" class="flex items-center justify-center">
                         <x-application-logo class=" text-gray-500" />
                     </a>
                 </div>
