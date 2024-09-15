@@ -48,7 +48,7 @@
                         <option value="{{ $company->id }}">{{ $company->name }}</option>
                     @endforeach
                 @else
-                    <option id=1>NONE</option>
+                    <option id=1 value=1>NONE</option>
                 @endif
             </select>
             <x-input-error :messages="$errors->get('company_id')" class="mt-2" />
