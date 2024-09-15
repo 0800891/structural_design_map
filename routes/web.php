@@ -6,7 +6,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\MapController;
 
-Route::get('/', function () {
+Route::get('/sdm', function () {
     return view('welcome');
 });
 
