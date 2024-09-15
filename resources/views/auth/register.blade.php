@@ -43,9 +43,13 @@
          <div class="mt-4">
             <x-input-label for="company_id" :value="__('Company')" />
             <select id="company_id" name="company_id" class="block mt-1 w-full">
-                @foreach($companies as $company)
-                    <option value="{{ $company->id }}">{{ $company->name }}</option>
-                @endforeach
+                @if(isset($commpanies))
+                    @foreach($companies as $company)
+                        <option value="{{ $company->id }}">{{ $company->name }}</option>
+                    @endforeach
+                @else
+                    <option value=1>NONE</option>
+                @endif
             </select>
             <x-input-error :messages="$errors->get('company_id')" class="mt-2" />
         </div>
