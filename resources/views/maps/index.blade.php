@@ -26,7 +26,7 @@
     {{-- <input type="text" id="address" placeholder="Enter address here"> --}}
     {{-- <button onclick="getCoordinates()">Get Coordinates</button> --}}
                     {{-- <p id="coordinates"></p> --}}
-                    <button onclick="getNow()">地図読み込み</button>
+                    <button onclick="getNow()" class="border border-black">現在地更新</button>
                     <div id="map" style="height: 500px; width: 100%;"></div>                    
                     <script>
                     
