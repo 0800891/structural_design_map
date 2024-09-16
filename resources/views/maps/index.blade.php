@@ -26,13 +26,33 @@
     {{-- <input type="text" id="address" placeholder="Enter address here"> --}}
     {{-- <button onclick="getCoordinates()">Get Coordinates</button> --}}
                     {{-- <p id="coordinates"></p> --}}
-                    <div id="map" style="height: 500px; width: 100%;"></div>
-                    
+                    <button onclick="getNow()">地図読み込み</button>
+                    <div id="map" style="height: 500px; width: 100%;"></div>                    
                     <script>
+                    
                         let phpArray_project = {!! $jsonData !!};
-                        console.log(phpArray_project[0]);
-                        console.log(phpArray_project[0].company.name);
-                        console.log(phpArray_project[0].picture_01_link);
+
+                        // Declare current_position_latitude and current_position_longitude in the global scope
+                        let current_position_latitude = 35.6895; // Default value (Tokyo latitude)
+                        let current_position_longitude = 139.6917; // Default value (Tokyo longitude)
+                        let isGeolocationReady = false; // Flag to indicate if geolocation is ready
+
+                        window.onload = () => {
+                            navigator.geolocation.getCurrentPosition(
+                                function (position) {
+                                    current_position_latitude = position.coords.latitude;
+                                    current_position_longitude = position.coords.longitude;
+                                    isGeolocationReady = true; // Set flag to true once coordinates are available
+                                    initMap(); // Reinitialize map after getting geolocation
+                                },
+                                function (error) {
+                                    console.error("Geolocation error: ", error);
+                                    alert("エラーです！");
+                                    // Fallback: Continue to use default values for the map's center
+                                    initMap(); // Initialize map with default coordinates
+                                }
+                            );
+                        };
                     
                         // Convert the getCoordinates function to an async function
                         async function getCoordinates(address) {
@@ -81,19 +101,65 @@
                                     icon: phpArray_project[i].picture_02_link
                                 };
                             }
+
+                            // 現在地取得
+                            // if (navigator.geolocation) {
+                            // const getNow=()=>{
+                            // navigator.geolocation.getCurrentPosition(
+                                // function (position) {
+                                // if(get_position === 1){
+                                navigator.geolocation.getCurrentPosition(
+                                function (position) {
+                                // console.log(position.coords.latitude);
+                                let current_position_latitude = position.coords.latitude;
+                                let current_position_longitude = position.coords.longitude;
+                                })
+                                    markerData[phpArray_project.length]={
+                                        name: 'CurrentLocation',
+                                        Building_name: 'None',
+                                        address: 'None',
+                                        design_code: 'None',
+                                        dc_image: 'None',
+                                        lat: current_position_latitude,
+                                        lng: current_position_longitude,
+                                        icon: 'None'
+                                    }
+                                // }
+                                // function (error) {
+                                // alert("エラーです！");
+                                // }
+                                // )
+                            // }
+                            // };
                     
                             // // Map initialization logic
                             if (markerData.length === 1) {
+                                navigator.geolocation.getCurrentPosition(
+                                function (position) {
+                                // console.log(position.coords.latitude);
+                                current_position_latitude = position.coords.latitude;
+                                current_position_longitude = position.coords.longitude;
+                                })
+
+
                                 console.log("initMap_type1");
-                                var mapLatLng = new google.maps.LatLng({lat: markerData[0]['lat'], lng: markerData[0]['lng']}); 
+                                // var mapLatLng = new google.maps.LatLng({lat: markerData[0]['lat'], lng: markerData[0]['lng']}); 
+                                var mapLatLng = new google.maps.LatLng({lat: current_position_latitude, lng: current_position_longitude});
                                 var map = new google.maps.Map(document.getElementById('map'), {
                                     center: mapLatLng, 
                                     zoom: 15 
                                 });
                             } else {
                                 console.log("initMap_type2");
+                                navigator.geolocation.getCurrentPosition(
+                                function (position) {
+                                // console.log(position.coords.latitude);
+                                current_position_latitude = position.coords.latitude;
+                                current_position_longitude = position.coords.longitude;
+                                })
                                 
-                                var mapLatLng = new google.maps.LatLng({lat: markerData[0]['lat'], lng: markerData[0]['lng']}); 
+                                // var mapLatLng = new google.maps.LatLng({lat: markerData.slice(-1)[0]['lat'], lng: markerData.slice(-1)[0]['lng']}); 
+                                var mapLatLng = new google.maps.LatLng({lat: current_position_latitude, lng: current_position_longitude});
                                 var map = new google.maps.Map(document.getElementById('map'), {
                                     center: mapLatLng, 
                                     zoom: 15 
@@ -102,46 +168,87 @@
                         
                             // Add markers
                             for (var i = 0; i < markerData.length; i++) {
-                                var markerLatLng = new google.maps.LatLng({lat: markerData[i]['lat'], lng: markerData[i]['lng']});
-                                marker[i] = new google.maps.Marker({
-                                    position: markerLatLng,
-                                    map: map
-                                });
-                                var assetBaseUrl = "{{ asset('') }}";
-                                assetBaseUrl = assetBaseUrl.replace(/\/$/, "");
-                                var temp = markerData[i]['name'] + '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:20%">';
-                                for (var j=0;j < i; j++){
-                                    if(markerData[j]['Building_name']==markerData[i]['Building_name']){
-                                    temp = temp + '<br>' + markerData[j]['name']+'<div><img src="' + assetBaseUrl + markerData[j]['icon'] + '" style="width:20%"></div>'
+
+                                console.log(i);
+                                if(i<phpArray_project.length){
+
+                                    var markerLatLng = new google.maps.LatLng({lat: markerData[i]['lat'], lng: markerData[i]['lng']});
+                                    marker[i] = new google.maps.Marker({
+                                        position: markerLatLng,
+                                        map: map
+                                    });
+                                    var assetBaseUrl = "{{ asset('') }}";
+                                    assetBaseUrl = assetBaseUrl.replace(/\/$/, "");
+                                    var temp = markerData[i]['name'] + '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:20%">';
+                                    for (var j=0;j < i; j++){
+                                      if(markerData[j]['Building_name']==markerData[i]['Building_name']){
+                                        temp = temp + '<br>' + markerData[j]['name']+'<div><img src="' + assetBaseUrl + markerData[j]['icon'] + '" style="width:20%"></div>'
+                                        }
                                     }
-                                }
-                                infoWindow[i] = new google.maps.InfoWindow({
-                                    content: '<div>建物名称:' + markerData[i]['Building_name'] + '</div>' +
-                                             '<div>Structural Design Code:' + markerData[i]['design_code'] + 
-                                             '<img src="' + assetBaseUrl + markerData[i]['dc_image'] + '" style="width:50%"></div>' + 
-                                             '<div class="map">構造設計者名:<br>' + temp + '</div>'
-                                });
-                                marker[i].setOptions({// TAM 東京のマーカーのオプション設定
-                                icon: {
-                                        //  url: markerData[i]['icon'],
-                                        url:assetBaseUrl + markerData[i]['dc_image'],
-                                        scaledSize: new google.maps.Size(30, 30)
+                                    infoWindow[i] = new google.maps.InfoWindow({
+                                        content: '<div>建物名称:' + markerData[i]['Building_name'] + '</div>' +
+                                                 '<div>Structural Design Code:' + markerData[i]['design_code'] + 
+                                                 '<img src="' + assetBaseUrl + markerData[i]['dc_image'] + '" style="width:50%"></div>' + 
+                                                 '<div class="map">構造設計者名:<br>' + temp + '</div>'
+                                        });
+                                    marker[i].setOptions({
+                                    icon: {
+                                            //  url: markerData[i]['icon'],
+                                            url:assetBaseUrl + markerData[i]['dc_image'],
+                                            scaledSize: new google.maps.Size(30, 30)
                                         },
-                                optimized: false 
-                                });
-                                markerEvent(i);
+                                    optimized: false 
+                                    });
+                                    markerEvent(i);
+                                    }
+                                else{
+                                    console.log('current_position');
+                                    var markerLatLng = new google.maps.LatLng({lat: markerData[i]['lat'], lng: markerData[i]['lng']});
+                                    marker[i] = new google.maps.Marker({
+                                        position: markerLatLng,
+                                        map: map
+                                    });
+                                    const opts = {
+                                        zoom:13,
+                                        center: markerLatLng,
+                                    };
+                                    infoWindow[i] = new google.maps.InfoWindow({
+                                        content: '現在地' 
+                                        });
+                                    marker[i].setOptions({opts});
+                                    markerEvent(i);
+                                    // map.setOptions({opts});
+
+                                }
                                 }
 
                                 function markerEvent(i) {
-                                marker[i].addListener('click', function() { // マーカーをクリックしたとき
-                                infoWindow[i].open(map, marker[i]); // 吹き出しの表示
-                                });
+                                    marker[i].addListener('click', function() { // マーカーをクリックしたとき
+                                    infoWindow[i].open(map, marker[i]); // 吹き出しの表示
+                                    });
                                 }
+                               
                             }
                         
                     
                         // Ensure initMap is called after everything is set up
                         initMap();
+
+                        let get_position = 0;
+                        const getNow = () => {
+                            get_position = 1;
+                            navigator.geolocation.getCurrentPosition(
+                                function (position) {
+                                // console.log(position.coords.latitude);
+                                current_position_latitude = position.coords.latitude;
+                                current_position_longitude = position.coords.longitude;
+                                },
+                                function (error) {
+                                alert("エラーです！");
+                                }
+                                );
+                                initMap() 
+                            };
                     </script>
                     
 {{-- 
