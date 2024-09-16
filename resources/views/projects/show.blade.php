@@ -18,7 +18,7 @@
           <a href="{{ route('projects.index') }}" class="text-blue-500 hover:text-blue-700 mr-2 text-sm">Project一覧に戻る</a>
           <p class="text-gray-800 dark:text-gray-300 text-lg hidden">{{ $project->id }}</p>
           <p class="text-gray-600 dark:text-gray-400 text-lg">{{ $project->name }}</p>
-          <p>Designed By: <a href="{{ route('companies.show', $company) }}" class="text-blue-500 hover:text-blue-700">{{$project->company->name}}</a></p>
+          <p>Structural Designer: <a href="{{ route('companies.show', $company) }}" class="text-blue-500 hover:text-blue-700">{{$project->company->name}}</a></p>
           <p class="text-gray-600 dark:text-gray-400 text-sm">Address: {{ $project->address }}</p>
           <p class="text-gray-600 dark:text-gray-400 text-sm">Completion: {{ $project->completion }}</p>
           <p class="text-gray-600 dark:text-gray-400 text-sm">Design_Story: {{ $project->design_story }}</p>
