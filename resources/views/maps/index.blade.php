@@ -13,11 +13,32 @@
                     {{ __("Structural Design Map") }}
                    
                     <button onclick="getNow()" class="border border-black">現在地更新</button>
+                    <select id="select_company" class="block mt-1 w-full" value=1>
+                        {{-- @if(isset($commpanies[0])) --}}
+                        @if(isset($companies))
+                            @foreach($companies as $company)
+                                <option value="{{ $company->id }}">{{ $company->name }}</option>
+                            @endforeach
+                        @else
+                            <option value=1>NONE</option>
+                        @endif
+                    </select>
+                    <button id="btn_company" class="border border-black" onclick="choose_company()" >Choose_Company</button>
                     <div id="map" style="height: 500px; width: 100%;"></div>                    
                     <script>
                         let companyId = {{ $companies[0]->id }};
+                        const select_company = document.getElementById("select_company");
+                        
                         let url = "{{ route('companies.show', ':id') }}".replace(':id', companyId);
-                        console.log(url);
+                        // console.log(url);
+                        // let company_selection = document.getElementById("{{ route('companies.show',':id') }}".replace(':id',companyies[0]->name));
+                        console.log(select_company.value);
+
+                        // function buttonClick(){
+                        // console.log('選択されているのは ' + select_company.value + ' です');
+                        // }
+                        // let checkButton = document.getElementById('btn_company');
+                        // checkButton.addEventListener('click', buttonClick);
                     
                         let phpArray_project = {!! $jsonData !!};
                         console.log(phpArray_project[0].company.id);
@@ -90,7 +111,8 @@
                                     lng: coordinates[i][1],
                                     icon: phpArray_project[i].picture_02_link,
                                     project_url:"{{ route('projects.show', ':id') }}".replace(':id', phpArray_project[i].id),
-                                    company_url:"{{ route('companies.show', ':id') }}".replace(':id', phpArray_project[i].company.id)
+                                    company_url:"{{ route('companies.show', ':id') }}".replace(':id', phpArray_project[i].company.id),
+                                    company_id:phpArray_project[i].company.id
                                 };
                             }
 
@@ -116,7 +138,8 @@
                                         lng: current_position_longitude,
                                         icon: 'None',
                                         project_url:'None',
-                                        company_url:'None'
+                                        company_url:'None',
+                                        company_id:'None'
                                     }
                                 // }
                                 // function (error) {
@@ -164,38 +187,78 @@
                             for (var i = 0; i < markerData.length; i++) {
 
                                 console.log(i);
-                                if(i<phpArray_project.length){
+                                    if(i<phpArray_project.length){
+                                        let k = select_company.value;
+                                        console.log('True_or_False',Number(select_company.value)===1)
 
-                                    var markerLatLng = new google.maps.LatLng({lat: markerData[i]['lat'], lng: markerData[i]['lng']});
-                                    marker[i] = new google.maps.Marker({
-                                        position: markerLatLng,
-                                        map: map
-                                    });
-                                    var assetBaseUrl = "{{ asset('') }}";
-                                    assetBaseUrl = assetBaseUrl.replace(/\/$/, "");
-                                    var temp = markerData[i]['name'] + '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:20%">';
-                                    for (var j=0;j < i; j++){
-                                      if(markerData[j]['Building_name']==markerData[i]['Building_name']){
-                                        temp = temp + '<br>' + markerData[j]['name']+'<div><img src="' + assetBaseUrl + markerData[j]['icon'] + '" style="width:20%"></div>'
-                                        }
-                                    }
-                                    infoWindow[i] = new google.maps.InfoWindow({
-                                        content: '<div>建物名称:<a href='+markerData[i]['project_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[i]['Building_name'] + '</a></div>' +
-                                                 '<div class="map">構造設計者名:<a href='+markerData[i]['company_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[j]['name'] + '</a></div>'+
-                                                //  '<div>Structural Design Code:' + markerData[i]['design_code'] + 
-                                                 '<img src="' + assetBaseUrl + markerData[i]['dc_image'] + '" style="width:50%"></div>'+
-                                                 '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:50%"></div>'
-                                                //  '<div class="map">構造設計者名:<br>' + temp + '</div>'
+                                    if(Number(select_company.value)===1){
+
+                                        var markerLatLng = new google.maps.LatLng({lat: markerData[i]['lat'], lng: markerData[i]['lng']});
+                                        marker[i] = new google.maps.Marker({
+                                            position: markerLatLng,
+                                            map: map
                                         });
-                                    marker[i].setOptions({
-                                    icon: {
+                                        var assetBaseUrl = "{{ asset('') }}";
+                                        assetBaseUrl = assetBaseUrl.replace(/\/$/, "");
+                                        var temp = markerData[i]['name'] + '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:20%">';
+                                        for (var j=0;j < i; j++){
+                                        if(markerData[j]['Building_name']==markerData[i]['Building_name']){
+                                            temp = temp + '<br>' + markerData[j]['name']+'<div><img src="' + assetBaseUrl + markerData[j]['icon'] + '" style="width:20%"></div>'
+                                            }
+                                        }
+                                        infoWindow[i] = new google.maps.InfoWindow({
+                                            content: '<div>建物名称:<a href='+markerData[i]['project_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[i]['Building_name'] + '</a></div>' +
+                                                     '<div class="map">構造設計者名:<a href='+markerData[i]['company_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[j]['name'] + '</a></div>'+
+                                                    //  '<div>Structural Design Code:' + markerData[i]['design_code'] + 
+                                                    '<img src="' + assetBaseUrl + markerData[i]['dc_image'] + '" style="width:50%"></div>'+
+                                                    '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:50%"></div>'
+                                                    //  '<div class="map">構造設計者名:<br>' + temp + '</div>'
+                                            });
+                                        marker[i].setOptions({
+                                        icon: {
                                             //  url: markerData[i]['icon'],
                                             url:assetBaseUrl + markerData[i]['dc_image'],
                                             scaledSize: new google.maps.Size(30, 30)
-                                        },
-                                    optimized: false 
-                                    });
-                                    markerEvent(i);
+                                            },
+                                        optimized: false 
+                                        });
+                                        markerEvent(i);
+                                        }
+                                        else{
+                                        if(Number(markerData[i]['company_id'])===Number(select_company.value)){
+                                                var markerLatLng = new google.maps.LatLng({lat: markerData[i]['lat'], lng: markerData[i]['lng']});
+                                        marker[i] = new google.maps.Marker({
+                                            position: markerLatLng,
+                                            map: map
+                                        });
+                                        var assetBaseUrl = "{{ asset('') }}";
+                                        assetBaseUrl = assetBaseUrl.replace(/\/$/, "");
+                                        var temp = markerData[i]['name'] + '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:20%">';
+                                        for (var j=0;j < i; j++){
+                                        if(markerData[j]['Building_name']==markerData[i]['Building_name']){
+                                            temp = temp + '<br>' + markerData[j]['name']+'<div><img src="' + assetBaseUrl + markerData[j]['icon'] + '" style="width:20%"></div>'
+                                            }
+                                        }
+                                        infoWindow[i] = new google.maps.InfoWindow({
+                                            content: '<div>建物名称:<a href='+markerData[i]['project_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[i]['Building_name'] + '</a></div>' +
+                                                     '<div class="map">構造設計者名:<a href='+markerData[i]['company_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[j]['name'] + '</a></div>'+
+                                                    //  '<div>Structural Design Code:' + markerData[i]['design_code'] + 
+                                                    '<img src="' + assetBaseUrl + markerData[i]['dc_image'] + '" style="width:50%"></div>'+
+                                                    '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:50%"></div>'
+                                                    //  '<div class="map">構造設計者名:<br>' + temp + '</div>'
+                                            });
+                                        marker[i].setOptions({
+                                        icon: {
+                                            //  url: markerData[i]['icon'],
+                                            url:assetBaseUrl + markerData[i]['dc_image'],
+                                            scaledSize: new google.maps.Size(30, 30)
+                                            },
+                                        optimized: false 
+                                        });
+                                        markerEvent(i);}
+                                        
+
+                                        }
                                     }
                                 else{
                                     console.log('current_position');
@@ -214,8 +277,7 @@
                                     marker[i].setOptions({opts});
                                     markerEvent(i);
                                     // map.setOptions({opts});
-
-                                }
+                                    }
                                 }
 
                                 function markerEvent(i) {
@@ -245,6 +307,10 @@
                                 );
                                 initMap() 
                             };
+                        
+                        const choose_company = () => {
+                            initMap() 
+                        };
                     </script>
                     
 {{-- 
