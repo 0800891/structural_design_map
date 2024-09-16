@@ -36,9 +36,12 @@ class ProjectController extends Controller
             'completion' => 'required|integer',
             'company_id' => 'required|integer',
             'design_story' => 'required',
-            'picture_01_link' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
-            'picture_02_link' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
-            'picture_03_link' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'picture_01_link' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
+            'picture_01_link' => 'required|file|mimes:jpeg,png,jpg,gif',
+            // 'picture_02_link' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
+            'picture_02_link' => 'required|file|mimes:jpeg,png,jpg,gif',
+            // 'picture_03_link' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
+            'picture_03_link' => 'required|file|mimes:jpeg,png,jpg,gif',
         ]);
 
         $dir='img';
