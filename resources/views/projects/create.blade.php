@@ -20,8 +20,8 @@
               @csrf
               <div class="mb-4">
                 <label for="project" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">New Project</label>
-                <input type="text" name="name" id="name" placeholder="プロジェクト名を入力してください" class="shadow appearance-none border rounded w-full py-2 px-3  text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <input type="text" name="address" id="address" placeholder="住所を入力してください" class="shadow appearance-none border rounded w-full py-2 px-3 mt-2 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <input type="text" name="name" id="name" placeholder="プロジェクト名を入力してください" class="shadow appearance-none border rounded w-full py-2 px-3  text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline" autocomplete="name">
+                <input type="text" name="address" id="address" placeholder="住所を入力してください" class="shadow appearance-none border rounded w-full py-2 px-3 mt-2 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline" autocomplete="address">
                 <input type="number" name="completion" id="completion" placeholder="完成年を入力してください" class="shadow appearance-none border rounded w-full py-2 px-3 mt-2 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 <input type="text" name="design_story" id="design_story" placeholder="構造デザインの説明を入力してください" class="shadow appearance-none border rounded w-full py-2 px-3 mt-2 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 <p id="img_text">登録したい画像のファイルを３つ選択してください<br></p>
