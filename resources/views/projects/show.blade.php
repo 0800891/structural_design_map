@@ -6,7 +6,11 @@
       {{ __('Project詳細') }}
     </h2>
   </x-slot>
-
+  <header>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js" defer type="text/javascript"></script>
+  </header>
   <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
       <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -23,13 +27,19 @@
             <h3>Project Images</h3>
             <div class="flex space-x-4">
                 @if($project->picture_01_link)
+                <a href="{{ asset($project->picture_01_link) }}" data-lightbox="group">
                     <img src="{{ asset($project->picture_01_link) }}" alt="Picture 01" class="w-32 h-32 object-cover">
+                </a>
                 @endif
                 @if($project->picture_02_link)
+                <a href="{{ asset($project->picture_02_link) }}" data-lightbox="group">
                     <img src="{{ asset($project->picture_02_link) }}" alt="Picture 02" class="w-32 h-32 object-cover">
+                </a>
                 @endif
                 @if($project->picture_03_link)
+                <a href="{{ asset($project->picture_03_link) }}" data-lightbox="group">
                     <img src="{{ asset($project->picture_03_link) }}" alt="Picture 03" class="w-32 h-32 object-cover">
+                </a>
                 @endif
             </div>
           </div>
