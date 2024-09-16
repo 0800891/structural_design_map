@@ -43,7 +43,8 @@
          <div class="mt-4">
             <x-input-label for="company_id" :value="__('Company')" />
             <select id="company_id" name="company_id" class="block mt-1 w-full">
-                @if(isset($commpanies))
+                {{-- @if(isset($commpanies[0])) --}}
+                @if(isset($companies))
                     @foreach($companies as $company)
                         <option value="{{ $company->id }}">{{ $company->name }}</option>
                     @endforeach
