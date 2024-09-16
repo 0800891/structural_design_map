@@ -9,6 +9,7 @@ use App\Models\Company;
 class MapController extends Controller
 {
     public function index(){
+        $companies = Company::all();
         $projects = Project::with('company')->get(); // Fetch projects
         // $companies = Company::all();
         // $projectIndexes = $projects->pluck('id','name','address','completion')->toArray(); // Get the indexes or any required data
@@ -37,7 +38,7 @@ class MapController extends Controller
          $jsonData = json_encode($combinedData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         // Return the JSON response
         // return response()->json($combinedData);
-        return view('maps.index', compact('projects','jsonData')); // Pass to Blade view
+        return view('maps.index', compact('projects','jsonData','companies')); // Pass to Blade view
     }
 
 }

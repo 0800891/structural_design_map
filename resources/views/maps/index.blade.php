@@ -11,26 +11,16 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __("Structural Design Map") }}
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
-                        {{-- Loop through projects --}}
-                        {{-- @foreach($projects as $index) --}}
-                        {{-- @foreach($json as $j) --}}
-                        <tr>
-                            {{-- <td><p>{{ $json }}</p></td> --}}
-                        </tr>
-                        {{-- @endforeach --}}
-                    </div>
-
-                    {{-- Use $json to pass data to the JS script --}}
-
-    {{-- <input type="text" id="address" placeholder="Enter address here"> --}}
-    {{-- <button onclick="getCoordinates()">Get Coordinates</button> --}}
-                    {{-- <p id="coordinates"></p> --}}
+                   
                     <button onclick="getNow()" class="border border-black">現在地更新</button>
                     <div id="map" style="height: 500px; width: 100%;"></div>                    
                     <script>
+                        let companyId = {{ $companies[0]->id }};
+                        let url = "{{ route('companies.show', ':id') }}".replace(':id', companyId);
+                        console.log(url);
                     
                         let phpArray_project = {!! $jsonData !!};
+                        console.log(phpArray_project[0].company.id);
 
                         // Declare current_position_latitude and current_position_longitude in the global scope
                         let current_position_latitude = 35.6895; // Default value (Tokyo latitude)
@@ -98,7 +88,9 @@
                                     dc_image: phpArray_project[i].picture_01_link,
                                     lat: coordinates[i][0],
                                     lng: coordinates[i][1],
-                                    icon: phpArray_project[i].picture_02_link
+                                    icon: phpArray_project[i].picture_02_link,
+                                    project_url:"{{ route('projects.show', ':id') }}".replace(':id', phpArray_project[i].id),
+                                    company_url:"{{ route('companies.show', ':id') }}".replace(':id', phpArray_project[i].company.id)
                                 };
                             }
 
@@ -122,7 +114,9 @@
                                         dc_image: 'None',
                                         lat: current_position_latitude,
                                         lng: current_position_longitude,
-                                        icon: 'None'
+                                        icon: 'None',
+                                        project_url:'None',
+                                        company_url:'None'
                                     }
                                 // }
                                 // function (error) {
@@ -186,10 +180,12 @@
                                         }
                                     }
                                     infoWindow[i] = new google.maps.InfoWindow({
-                                        content: '<div>建物名称:' + markerData[i]['Building_name'] + '</div>' +
-                                                 '<div>Structural Design Code:' + markerData[i]['design_code'] + 
-                                                 '<img src="' + assetBaseUrl + markerData[i]['dc_image'] + '" style="width:50%"></div>' + 
-                                                 '<div class="map">構造設計者名:<br>' + temp + '</div>'
+                                        content: '<div>建物名称:<a href='+markerData[i]['project_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[i]['Building_name'] + '</a></div>' +
+                                                 '<div class="map">構造設計者名:<a href='+markerData[i]['company_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[j]['name'] + '</a></div>'+
+                                                //  '<div>Structural Design Code:' + markerData[i]['design_code'] + 
+                                                 '<img src="' + assetBaseUrl + markerData[i]['dc_image'] + '" style="width:50%"></div>'+
+                                                 '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:50%"></div>'
+                                                //  '<div class="map">構造設計者名:<br>' + temp + '</div>'
                                         });
                                     marker[i].setOptions({
                                     icon: {
