@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\Project;
+use App\Models\User;
 
 
 
@@ -48,9 +49,9 @@ class CompanyController extends Controller
     {
         // $company -> load('companies');
         // $company = Company::all();
-
+        $users = User::all();
         $projects = Project::all();
-        return view('companies.show', compact('company','projects'));
+        return view('companies.show', compact('company','projects','users'));
     }
 
     /**
