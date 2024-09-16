@@ -10,21 +10,28 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("Structural Design Map") }}
+                    {{-- {{ __("Structural Design Map") }} --}}
                    
-                    <button onclick="getNow()" class="border border-black">現在地更新</button>
+                    
+                    <div>Sort By
                     <select id="select_company" class="block mt-1 w-full" value=1>
                         {{-- @if(isset($commpanies[0])) --}}
                         @if(isset($companies))
                             @foreach($companies as $company)
-                                <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                @if(($company->id)===1)
+                                    <option value="{{ $company->id }}">ALL Company</option>
+                                @else
+                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                @endif
                             @endforeach
                         @else
-                            <option value=1>NONE</option>
+                            <option value=1>ALL Company</option>
                         @endif
                     </select>
-                    <button id="btn_company" class="border border-black" onclick="choose_company()" >Choose_Company</button>
-                    <div id="map" style="height: 500px; width: 100%;"></div>                    
+                </div>
+                    <button id="btn_company" class="border border-black" onclick="choose_company()" >Select Company</button>
+                    <div id="map" style="height: 500px; width: 100%;"></div> 
+                    <button onclick="getNow()" class="border border-black">Update Where You Are</button>                   
                     <script>
                         let companyId = {{ $companies[0]->id }};
                         const select_company = document.getElementById("select_company");
