@@ -29,9 +29,9 @@
                         @endif
                     </select>
                 </div>
-                    <button id="btn_company" class="border border-black" onclick="choose_company()" >Select Company</button>
+                    <button id="btn_company" class="bg-gray-500 hover:bg-blue-700 text-black border-full font-bold  py-1 px-2 rounded focus:outline-none focus:shadow-outline" onclick="choose_company()" >Select Company</button>
                     <div id="map" style="height: 500px; width: 100%;"></div> 
-                    <button onclick="getNow()" class="border border-black">Update Where You Are</button>  
+                    <button onclick="getNow()" class="bg-gray-500 hover:bg-blue-700 text-black border-full font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline">Update Where You Are</button>  
                 <div>
                     @if(session('projectId'))
                         <p id="dispatched_project_id" value="{{ session('projectId') }}">Selected Project ID: {{ session('projectId') }}</p>
