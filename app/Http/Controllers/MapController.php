@@ -8,7 +8,7 @@ use App\Models\Company;
 
 class MapController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $companies = Company::all();
         $projects = Project::with('company')->get(); // Fetch projects
         // $companies = Company::all();
@@ -38,6 +38,15 @@ class MapController extends Controller
          $jsonData = json_encode($combinedData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         // Return the JSON response
         // return response()->json($combinedData);
+
+         $projectId = $request->query('project_id'); // Get the project ID from the query parameters
+         if ($projectId) {
+             session()->flash('projectId', $projectId); // Flash project ID to the session
+
+              // Redirect to the same route but without the project_id query parameter
+            return redirect()->route('maps.index'); // This will remove the query string
+         }
+    
         return view('maps.index', compact('projects','jsonData','companies')); // Pass to Blade view
     }
 

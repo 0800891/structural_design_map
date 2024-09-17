@@ -31,15 +31,35 @@
                 </div>
                     <button id="btn_company" class="border border-black" onclick="choose_company()" >Select Company</button>
                     <div id="map" style="height: 500px; width: 100%;"></div> 
-                    <button onclick="getNow()" class="border border-black">Update Where You Are</button>                   
+                    <button onclick="getNow()" class="border border-black">Update Where You Are</button>  
+                <div>
+                    @if(session('projectId'))
+                        <p id="dispatched_project_id" value="{{ session('projectId') }}">Selected Project ID: {{ session('projectId') }}</p>
+                        <script>
+                            // You can use this project ID in JavaScript if needed
+                            let projectId = {{ session('projectId') }};
+                            console.log("Dispatched Project ID:", projectId);
+                        </script>
+                    @else
+                        <p hidden>No project selected.</p>
+                    @endif
+                </div>
+
+
                     <script>
                         let companyId = {{ $companies[0]->id }};
                         const select_company = document.getElementById("select_company");
-                        
+                        if (document.getElementById("dispatched_project_id") != null) {
+                            const dispatched_project_element = document.getElementById("dispatched_project_id");
+                            const projectIdText = dispatched_project_element.innerText.split(": ")[1];
+                            const projectId = Number(projectIdText);
+                            console.log("dispatched_project_id", Number(projectIdText));
+                        }
                         let url = "{{ route('companies.show', ':id') }}".replace(':id', companyId);
                         // console.log(url);
                         // let company_selection = document.getElementById("{{ route('companies.show',':id') }}".replace(':id',companyies[0]->name));
-                        console.log(select_company.value);
+                        console.log("select_company value", select_company.value);
+        
 
                         // function buttonClick(){
                         // console.log('選択されているのは ' + select_company.value + ' です');
@@ -51,27 +71,12 @@
                         console.log(phpArray_project[0].company.id);
 
                         // Declare current_position_latitude and current_position_longitude in the global scope
-                        let current_position_latitude = 35.6895; // Default value (Tokyo latitude)
-                        let current_position_longitude = 139.6917; // Default value (Tokyo longitude)
-                        let isGeolocationReady = false; // Flag to indicate if geolocation is ready
-
-                        window.onload = () => {
-                            navigator.geolocation.getCurrentPosition(
-                                function (position) {
-                                    current_position_latitude = position.coords.latitude;
-                                    current_position_longitude = position.coords.longitude;
-                                    isGeolocationReady = true; // Set flag to true once coordinates are available
-                                    initMap(); // Reinitialize map after getting geolocation
-                                },
-                                function (error) {
-                                    console.error("Geolocation error: ", error);
-                                    alert("エラーです！");
-                                    // Fallback: Continue to use default values for the map's center
-                                    initMap(); // Initialize map with default coordinates
-                                }
-                            );
-                        };
-                    
+                        
+                            let current_position_latitude = 35.6895; // Default value (Tokyo latitude)
+                            let current_position_longitude = 139.6917; // Default value (Tokyo longitude)
+                            let isGeolocationReady = false; // Flag to indicate if geolocation is ready
+                            console.log("CP01",current_position_latitude, current_position_longitude);
+                        
                         // Convert the getCoordinates function to an async function
                         async function getCoordinates(address) {
                             var apiKey = '{{ config('services.google_map.gm_api_key') }}';
@@ -87,11 +92,55 @@
                                     return [lat, lng];
                                 } else {
                                     console.log("Geocoding was not successful.");
-                                    return [0, 0];  // Default value
+                                    return [35.6895, 139.6917]; // Default value
                                 }
                             } catch (error) {
                                 console.error("Error fetching the coordinates: ", error);
-                                return [0, 0];  // Default value
+                                return [35.6895, 139.6917]; // Default value
+                            }
+                        }
+                    
+                        window.onload = async () => {
+                            // Only call initMap after coordinates are determined
+                            await setCoordinates(); 
+                            console.log("CP02",current_position_latitude, current_position_longitude);
+                            initMap();
+                        };
+                        // window.onload = async () => {
+                        async function setCoordinates() {
+                            if(document.getElementById("dispatched_project_id")!=null){
+                                // If the projectId is dispatched from the /projects/id, set the coordinates to the project’s coordinates
+                                
+                                const project = phpArray_project.find(proj => Number(proj.id) === projectId);
+                                console.log('project_xxx', project)
+
+                            if (project) {
+                                 // Fetch the coordinates for the selected project
+                                let coordinates = await getCoordinates(project.address);
+                                current_position_latitude = coordinates[0];
+                                current_position_longitude = coordinates[1];
+                                isGeolocationReady = true; // Set flag to true once coordinates are available
+                                console.log("CP03",current_position_latitude, current_position_longitude);
+                            }
+                            }else {
+                            // If no project is selected, use the user's geolocation
+
+                            await new Promise((resolve, reject) => {
+                                navigator.geolocation.getCurrentPosition(
+                                    function (position) {
+                                        current_position_latitude = position.coords.latitude;
+                                        current_position_longitude = position.coords.longitude;
+                                        isGeolocationReady = true; // Set flag to true once geolocation is available
+                                        resolve();
+                                        console.log("CP04",current_position_latitude, current_position_longitude);
+                                    },
+                                    function (error) {
+                                        console.error("Geolocation error: ", error);
+                                        alert("エラーです！");
+                                        resolve();  // Still resolve to ensure map initializes with default coordinates
+                                    }
+                                );
+                             });
                             }
                         }
                     
@@ -123,18 +172,6 @@
                                 };
                             }
 
-                            // 現在地取得
-                            // if (navigator.geolocation) {
-                            // const getNow=()=>{
-                            // navigator.geolocation.getCurrentPosition(
-                                // function (position) {
-                                // if(get_position === 1){
-                                navigator.geolocation.getCurrentPosition(
-                                function (position) {
-                                // console.log(position.coords.latitude);
-                                let current_position_latitude = position.coords.latitude;
-                                let current_position_longitude = position.coords.longitude;
-                                })
                                     markerData[phpArray_project.length]={
                                         name: 'CurrentLocation',
                                         Building_name: 'None',
@@ -149,38 +186,6 @@
                                         company_id:'None'
                                     }
                                 // }
-                                // function (error) {
-                                // alert("エラーです！");
-                                // }
-                                // )
-                            // }
-                            // };
-                    
-                            // // Map initialization logic
-                            if (markerData.length === 1) {
-                                navigator.geolocation.getCurrentPosition(
-                                function (position) {
-                                // console.log(position.coords.latitude);
-                                current_position_latitude = position.coords.latitude;
-                                current_position_longitude = position.coords.longitude;
-                                })
-
-
-                                console.log("initMap_type1");
-                                // var mapLatLng = new google.maps.LatLng({lat: markerData[0]['lat'], lng: markerData[0]['lng']}); 
-                                var mapLatLng = new google.maps.LatLng({lat: current_position_latitude, lng: current_position_longitude});
-                                var map = new google.maps.Map(document.getElementById('map'), {
-                                    center: mapLatLng, 
-                                    zoom: 15 
-                                });
-                            } else {
-                                console.log("initMap_type2");
-                                navigator.geolocation.getCurrentPosition(
-                                function (position) {
-                                // console.log(position.coords.latitude);
-                                current_position_latitude = position.coords.latitude;
-                                current_position_longitude = position.coords.longitude;
-                                })
                                 
                                 // var mapLatLng = new google.maps.LatLng({lat: markerData.slice(-1)[0]['lat'], lng: markerData.slice(-1)[0]['lng']}); 
                                 var mapLatLng = new google.maps.LatLng({lat: current_position_latitude, lng: current_position_longitude});
@@ -188,15 +193,14 @@
                                     center: mapLatLng, 
                                     zoom: 15 
                                 });
-                            }
+                            
                         
                             // Add markers
                             for (var i = 0; i < markerData.length; i++) {
 
-                                console.log(i);
                                     if(i<phpArray_project.length){
                                         let k = select_company.value;
-                                        console.log('True_or_False',Number(select_company.value)===1)
+                                        // console.log('True_or_False',Number(select_company.value)===1)
 
                                     if(Number(select_company.value)===1){
 
@@ -270,10 +274,14 @@
                                 else{
                                     console.log('current_position');
                                     var markerLatLng = new google.maps.LatLng({lat: markerData[i]['lat'], lng: markerData[i]['lng']});
+                                    if(document.getElementById("dispatched_project_id")!=null){
+
+                                    }else{
                                     marker[i] = new google.maps.Marker({
                                         position: markerLatLng,
                                         map: map
                                     });
+                                };
                                     const opts = {
                                         zoom:13,
                                         center: markerLatLng,
@@ -281,11 +289,12 @@
                                     infoWindow[i] = new google.maps.InfoWindow({
                                         content: '現在地' 
                                         });
-                                    marker[i].setOptions({opts});
-                                    markerEvent(i);
+                                    // marker[i].setOptions({opts});
+                                    // markerEvent(i);
                                     // map.setOptions({opts});
                                     }
                                 }
+                                console.log("CP05",current_position_latitude, current_position_longitude);
 
                                 function markerEvent(i) {
                                     marker[i].addListener('click', function() { // マーカーをクリックしたとき
@@ -297,26 +306,29 @@
                         
                     
                         // Ensure initMap is called after everything is set up
-                        initMap();
+                        // initMap();
 
-                        let get_position = 0;
-                        const getNow = () => {
-                            get_position = 1;
+                        // let get_position = 0;
+                        const getNow = async () => {
+                            // get_position = 1;
                             navigator.geolocation.getCurrentPosition(
-                                function (position) {
+                                async function (position) {
                                 // console.log(position.coords.latitude);
                                 current_position_latitude = position.coords.latitude;
                                 current_position_longitude = position.coords.longitude;
+                                await setCoordinates();
+                                initMap() ;
+                                console.log("CP06",current_position_latitude, current_position_longitude);
                                 },
                                 function (error) {
                                 alert("エラーです！");
                                 }
                                 );
-                                initMap() 
                             };
                         
                         const choose_company = () => {
-                            initMap() 
+                            initMap(); 
+                            console.log("CP07",current_position_latitude, current_position_longitude);
                         };
                     </script>
                     
