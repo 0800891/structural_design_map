@@ -310,7 +310,7 @@
 
                         // let get_position = 0;
                         const getNow = async () => {
-                            // get_position = 1;
+                            window.location.reload();
                             navigator.geolocation.getCurrentPosition(
                                 async function (position) {
                                 // console.log(position.coords.latitude);
