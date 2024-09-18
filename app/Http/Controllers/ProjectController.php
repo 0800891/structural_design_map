@@ -13,7 +13,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::with('company')->latest()->get();
+        // $projects = Project::with('company')->latest()->get();
+        $projects = Project::with('company')->orderBy('name', 'asc')->get();
         return view('projects.index', compact('projects'));
     }
 
