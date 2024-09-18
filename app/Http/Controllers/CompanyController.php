@@ -17,7 +17,10 @@ class CompanyController extends Controller
     public function index()
     {
        
-        $companies = Company::all();
+        // $companies = Company::all();
+        // return view('companies.index', compact('companies'));
+        $companies = Company::where('id', '!=', 1)->orderBy('name', 'asc')->get();
+
         return view('companies.index', compact('companies'));
     }
 
