@@ -14,8 +14,22 @@ class ProjectController extends Controller
     public function index()
     {
         // $projects = Project::with('company')->latest()->get();
-        $projects = Project::with('company')->orderBy('name', 'asc')->get();
-        return view('projects.index', compact('projects'));
+        // $projects = Project::with('company')->orderBy('name', 'asc')->get();
+        // return view('projects.index', compact('projects'));
+
+        // Fetch all projects with their company relationships
+    $projects = Project::with('company')->get();
+    
+    // Create a collator for locale-based comparison (set locale to Japanese)
+    $collator = new \Collator('ja_JP');
+
+    // Sort the collection using the collator
+    $sortedProjects = $projects->sort(function($a, $b) use ($collator) {
+        // First compare project names (alphabetically or in Japanese)
+        return $collator->compare($a->name, $b->name);
+    });
+
+    return view('projects.index', ['projects' => $sortedProjects]);
     }
 
     /**
