@@ -9,7 +9,7 @@
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
           <div class="p-6 text-gray-900 dark:text-gray-100">
-            <a href="{{ route('companies.index') }}" class="text-blue-500 hover:text-blue-700 mr-2">Company一覧に戻る</a>
+            <a href="{{ route('companies.index') }}" class="text-blue-500 hover:text-blue-700 mr-2">Back to Companies List</a>
             {{-- <p class="text-gray-800 dark:text-gray-300 text-lg">{{ $company->id }}</p> --}}
             <p class="text-gray-600 dark:text-gray-400 text-lg">Name: {{ $company->name }}</p>
            
@@ -41,8 +41,7 @@
                     <th>
                       <div class="mb-2 p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
                          {{-- <p class="text-gray-800 dark:text-gray-300">{{ $project->name }}</p> --}}
-                         <p class="text-gray-600 dark:text-gray-400 text-sm">{{$project->name}} </p>
-                         <a href="{{ route('projects.show', $project) }}" class="text-blue-500 hover:text-blue-700">詳細を見る</a>
+                         <p class="text-gray-600 dark:text-gray-400 text-sm"><a href="{{ route('projects.show', $project) }}" class="text-blue-500 hover:text-blue-700">{{$project->name}} </a></p>
                       </div>
                     </th>
                     @else

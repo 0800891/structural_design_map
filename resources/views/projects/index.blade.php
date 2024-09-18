@@ -12,8 +12,7 @@
             @foreach ($projects as $project)
             <div class="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
               <p class="text-gray-800 dark:text-gray-300">{{ $project->project }}</p>
-              <p class="text-gray-600 dark:text-gray-400 text-sm">Project名:{{$project->name}} / Company Name: {{ $project->company->name }} </p>
-              <a href="{{ route('projects.show', $project) }}" class="text-blue-500 hover:text-blue-700">詳細を見る</a>
+              <p class="text-gray-600 dark:text-gray-400 text-sm"> <a href="{{ route('projects.show', $project) }}" class="text-blue-500 hover:text-blue-700">{{$project->name}} </a>/ Structural Designer: {{ $project->company->name }} </p>
             </div>
             @endforeach
           </div>
