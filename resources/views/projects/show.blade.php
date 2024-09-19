@@ -26,7 +26,29 @@
           <p class="text-gray-600 dark:text-gray-400 text-sm">Address: {{ $project->address }}</p>
           <p class="text-gray-600 dark:text-gray-400 text-sm">Completion: {{ $project->completion }}</p>
           <p class="text-gray-600 dark:text-gray-400 text-sm">Design_Story: {{ $project->design_story }}</p>
-
+          
+          <!-- Add Translation Form -->
+          <div class="mt-4">
+            <form method="POST" action="{{ route('translation') }}">
+              @csrf
+              <input type="hidden" name="sentence" value="{{ $project->design_story }}">
+              
+              <!-- Add Language Dropdown -->
+              <label for="target_lang">Translate to:</label>
+              <select name="target_lang" id="target_lang" class="border-gray-300 rounded-md shadow-sm">
+                <option value="EN-US">English (US)</option>
+                <option value="JA">Japanese</option>
+                <option value="DE">German</option>
+                <option value="FR">French</option>
+                <option value="ES">Spanish</option>
+                <option value="IT">Italian</option>
+                <option value="ZH">Chinese (Simplified)</option>
+              </select>
+              
+              <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Translate Design Story</button>
+            </form>
+          </div>
+          
           <div class="mt-4">
             <h3>Project Images</h3>
             <div class="flex space-x-4">

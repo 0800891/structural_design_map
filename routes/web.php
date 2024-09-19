@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\MapController;
+use App\Http\Controllers\TranslationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,6 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::post('companies', [CompanyController::class,'store'])->name('companies.store');
 
     Route::post('maps',[MapController::class,'index'])->name('maps.index');
+
+    Route::get('/translation', [TranslationController::class, 'index'])->name('translation-index');
+    // Route::post('/translation', [TranslationController::class, 'translation'])->name('translation-translation');
+    Route::post('/translation', [TranslationController::class, 'translation'])->name('translation');
+
 });
 
 require __DIR__.'/auth.php';
