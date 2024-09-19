@@ -17,38 +17,44 @@
               <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                   <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <table border="1">
-                    <tr>
+                    {{-- <table border="1"> --}}
+                    {{-- <tr> --}}
                   <p>Employee一覧</p>
+                  <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-wrap">
                   @foreach($users as $user)
                     @if($company->id === $user->company_id)
-                    <th>
-                    <div class="mb-4 p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                    {{-- <th> --}}
+                    <div class="border mb-4 p-2 bg-gray-100 dark:bg-gray-700 rounded-lg flex-grow">
                       {{-- <p class="text-gray-800 dark:text-gray-300">{{ $project->name }}</p> --}}
                       <p class="text-gray-600 dark:text-gray-400 text-sm">{{$user->name}} </p>
                     </div>
-                    </th>
-                    @else
+                
                     @endif
                   @endforeach
-                    </tr>
-                  </table>
-                    <table border="1">
-                    <tr>
+                  </div>
+                    {{-- </tr> --}}
+                  {{-- </table> --}}
+                    {{-- <table border="1"> --}}
+                    {{-- <tr> --}}
                   <p>Project一覧</p>
+                  <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-wrap">
                   @foreach($projects as $project)
                     @if($company->id === $project->company_id)
-                    <th>
-                      <div class="mb-2 p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                    {{-- <th> --}}
+                      <div class="border mb-2 p-2 bg-gray-100 dark:bg-gray-700 rounded-lg  flex-grow">
                          {{-- <p class="text-gray-800 dark:text-gray-300">{{ $project->name }}</p> --}}
                          <p class="text-gray-600 dark:text-gray-400 text-sm"><a href="{{ route('projects.show', $project) }}" class="text-blue-500 hover:text-blue-700">{{$project->name}} </a></p>
+                         @if($project->picture_01_link)
+                         {{-- <a href="{{ asset($project->picture_01_link) }}" data-lightbox="group"> --}}
+                           <img src="{{ asset($project->picture_01_link) }}" alt="Picture 01" class="w-32 h-32 object-cover">
+                       {{-- </a> --}}
+                         @endif
                       </div>
-                    </th>
-                    @else
+                    {{-- </th> --}}
                     @endif
                   @endforeach
                   </tr>
-                </table>
+                {{-- </table> --}}
                   </div>
                 </div>
               </div>
