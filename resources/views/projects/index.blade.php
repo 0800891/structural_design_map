@@ -10,7 +10,7 @@
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
           <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-wrap">
             @foreach ($projects as $project)
-            <div class="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg basis-1/4">
+            <div class="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg w-1/5">
               <p class="text-gray-800 dark:text-gray-300">{{ $project->project }}</p>
               <p class="text-gray-600 dark:text-gray-400 text-sm"> 
                 <a href="{{ route('projects.show', $project) }}" class="text-blue-500 hover:text-blue-700">{{$project->name}} </a>/ Structural Designer: {{ $project->company->name }}
