@@ -19,7 +19,7 @@
                 <input type="text" name="address" id="address" value={{$project->address}} class="shadow appearance-none border rounded w-full py-2 px-3 mt-2 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 <input type="number" name="completion" id="completion"  value={{$project->completion}} class="shadow appearance-none border rounded w-full py-2 px-3 mt-2 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 <input type="text" name="design_story" id="design_story" value={{$project->design_story}}  class="shadow appearance-none border rounded w-full py-2 px-3 mt-2 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <p id="img_text">登録したい画像のファイルを３つ選択してください<br></p>
+                <p id="img_text">Select three image files<br></p>
                 <input type="file" id="img_01" name="picture_01_link" accept="image/*" value={{$project->picture_01_link}} >{{$project->picture_01_link}}<br>
                 <input type="file" id="img_02" name="picture_02_link" accept="image/*" value={{$project->picture_02_link}} >{{$project->picture_02_link}}<br>
                 <input type="file" id="img_03" name="picture_03_link" accept="image/*" value={{$project->picture_03_link}} >{{$project->picture_03_link}}<br>

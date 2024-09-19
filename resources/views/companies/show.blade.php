@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
       <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-        {{ __('Company詳細') }}
+        {{ __('Company Detail') }}
       </h2>
     </x-slot>
   
@@ -19,7 +19,7 @@
                   <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- <table border="1"> --}}
                     {{-- <tr> --}}
-                  <p>Employee一覧</p>
+                  <p>Employee List</p>
                   <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-wrap">
                   @foreach($users as $user)
                     @if($company->id === $user->company_id)
@@ -36,7 +36,7 @@
                   {{-- </table> --}}
                     {{-- <table border="1"> --}}
                     {{-- <tr> --}}
-                  <p>Project一覧</p>
+                  <p>Project List</p>
                   <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-wrap">
                   @foreach($projects as $project)
                     @if($company->id === $project->company_id)

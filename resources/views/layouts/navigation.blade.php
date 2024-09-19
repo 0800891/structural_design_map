@@ -20,17 +20,17 @@
                     </x-nav-link>
 
                     <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
-                        {{ __('Project一覧') }}
+                        {{ __('Project List') }}
                       </x-nav-link>
                       <x-nav-link :href="route('projects.create')" :active="request()->routeIs('projects.create')">
-                        {{ __('Project登録') }}
+                        {{ __('Register New Project') }}
                       </x-nav-link>
 
                       <x-nav-link :href="route('companies.index')" :active="request()->routeIs('companies.index')">
-                        {{ __('Company一覧') }}
+                        {{ __('Company List') }}
                       </x-nav-link>
                       <x-nav-link :href="route('companies.create')" :active="request()->routeIs('companies.create')">
-                        {{ __('Company登録') }}
+                        {{ __('Register New Company') }}
                       </x-nav-link>
                 </div>
             </div>
