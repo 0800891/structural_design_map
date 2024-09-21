@@ -39,7 +39,7 @@
                             
                             @if($project->picture_01_link)
                   {{-- <a href="{{ asset($project->picture_01_link) }}" data-lightbox="group"> --}}
-                    <img src="{{ asset($project->picture_01_link) }}" alt="Picture 01" class="w-32 h-32 object-cover">
+                    <img src="{{ asset($project->picture_01_link) }}" alt="Picture 01" class="w-24 h-24 object-cover">
                 {{-- </a> --}}
                 @endif
                         </div>
