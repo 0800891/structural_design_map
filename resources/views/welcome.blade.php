@@ -120,7 +120,7 @@
                                 <div class="pt-3 sm:pt-5">
                                     <h2 class="text-xl font-semibold text-black dark:text-white">
                                         {{-- Laracasts --}}
-                                        特徴1
+                                        Find Projects on World Map
                                     </h2>
 
                                     <p class="mt-4 text-sm/relaxed">
@@ -143,7 +143,7 @@
                                 <div class="pt-3 sm:pt-5">
                                     <h2 class="text-xl font-semibold text-black dark:text-white">
                                         {{-- Laravel News --}}
-                                        特徴2
+                                        Find Structural Design Story Globally
                                     </h2>
 
                                     <p class="mt-4 text-sm/relaxed">
@@ -169,7 +169,7 @@
                                 <div class="pt-3 sm:pt-5">
                                     <h2 class="text-xl font-semibold text-black dark:text-white">
                                         {{-- Vibrant Ecosystem --}}
-                                        特徴3
+                                        Bookmark Your Favorite Projetcs
                                     </h2>
 
                                     <p class="mt-4 text-sm/relaxed">

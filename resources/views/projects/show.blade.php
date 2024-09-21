@@ -72,18 +72,18 @@
           </div>
           
           <div class="text-gray-600 dark:text-gray-400 text-sm">
-            <p>作成日時: {{ $project->created_at->format('Y-m-d H:i') }}</p>
-            <p>更新日時: {{ $project->updated_at->format('Y-m-d H:i') }}</p>
+            <p>Created At: {{ $project->created_at->format('Y-m-d H:i') }}</p>
+            <p>Updated At: {{ $project->updated_at->format('Y-m-d H:i') }}</p>
           </div>
         </form>
            <!--もしログインしている人のcompany idとprojectのidが一緒の場合-->
           @if (auth()->user()->company_id === $project->company_id)
           <div class="flex mt-4">
-            <a href="{{ route('projects.edit', $project) }}" class="text-blue-500 hover:text-blue-700 mr-2">編集</a>
+            <a href="{{ route('projects.edit', $project) }}" class="text-blue-500 hover:text-blue-700 mr-2">Edit</a>
             <form action="{{ route('projects.destroy', $project) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');">
               @csrf
               @method('DELETE')
-              <button type="submit" class="text-red-500 hover:text-red-700">削除</button>
+              <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
             </form>
           </div>
           @endif

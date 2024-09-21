@@ -60,13 +60,13 @@
               </div>
             </div>
             <div class="text-gray-600 dark:text-gray-400 text-sm">
-              <p>作成日時: {{ $company->created_at->format('Y-m-d H:i') }}</p>
-              <p>更新日時: {{ $company->updated_at->format('Y-m-d H:i') }}</p>
+              <p>Created At: {{ $company->created_at->format('Y-m-d H:i') }}</p>
+              <p>Updated At: {{ $company->updated_at->format('Y-m-d H:i') }}</p>
             </div>
              <!--もしログインしている人のidとtweetした人のidが一緒の場合-->
             @if (auth()->user()->company_id === $company->id)
             <div class="flex mt-4">
-              <a href="{{ route('companies.edit', $company) }}" class="text-blue-500 hover:text-blue-700 mr-2">編集</a>
+              <a href="{{ route('companies.edit', $company) }}" class="text-blue-500 hover:text-blue-700 mr-2">Edit Company Info</a>
               {{-- <form action="{{ route('companies.destroy', $company) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');">
                 @csrf
                 @method('DELETE')

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
       <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-        {{ __('Company編集') }}
+        {{ __('Edit Company Info') }}
       </h2>
     </x-slot>
   
@@ -9,7 +9,7 @@
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
           <div class="p-6 text-gray-900 dark:text-gray-100">
-            <a href="{{ route('companies.show', $company) }}" class="text-blue-500 hover:text-blue-700 mr-2">詳細に戻る</a>
+            <a href="{{ route('companies.show', $company) }}" class="text-blue-500 hover:text-blue-700 mr-2">Back to Company Detail</a>
             <form method="POST" action="{{ route('companies.update', $company) }}">
               @csrf
               @method('PUT')
