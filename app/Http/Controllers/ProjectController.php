@@ -181,4 +181,16 @@ class ProjectController extends Controller
 
         return redirect()->route('projects.index');
     }
+    
+    public function dashboard()
+{
+    // Get the logged-in user
+    $user = auth()->user();
+
+    // Fetch the projects liked by the user
+    $likedProjects = $user->likes()->with('company')->get();
+
+    // Pass the liked projects to the dashboard view
+    return view('dashboard', compact('likedProjects'));
+}
 }

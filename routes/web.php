@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/projects/{project}/like', [ProjectLikeController::class, 'store'])->name('projects.like');
     Route::delete('/projects/{project}/like', [ProjectLikeController::class, 'destroy'])->name('projects.dislike');
 
+    Route::get('/dashboard', [ProjectController::class, 'dashboard'])->name('dashboard');
 });
 
 require __DIR__.'/auth.php';

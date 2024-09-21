@@ -109,7 +109,7 @@
 
                                             <p class="mt-2 text-2xl/relaxed">
                                                 {{-- Laravel has wonderful documentation covering every aspect of the framework. Whether you are a newcomer or have prior experience with Laravel, we recommend reading our documentation from beginning to end. --}}
-                                                「Structural Design Map」とは、<br>地図上に、あなたの会社が構造設計した建築や土木の構造デザインを登録できるアプリです。ぜひ、あなたの会社の作品を世界に発信しましょう！
+                                                In Structural Design Map<br> you can find inspiring structural desing stories and register cool projects with your innovative strucural design.
                                             </p>
                                         </div>
                                     </div>

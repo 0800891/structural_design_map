@@ -21,7 +21,6 @@
                     <img src="{{ asset($project->picture_01_link) }}" alt="Picture 01" class="w-32 h-32 object-cover">
                 {{-- </a> --}}
                 @endif
-                {{-- 🔽 追加 --}}
             <div class="flex">
               @if ($project->liked->contains(auth()->id()))
               <form action="{{ route('projects.dislike', $project) }}" method="POST">
@@ -36,7 +35,6 @@
               </form>
               @endif
             </div>
-            {{-- 🔼 ここまで --}}
             </div>
             @endforeach
           </div>
