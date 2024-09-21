@@ -25,7 +25,8 @@
           <p>Structural Designer: <a href="{{ route('companies.show', $company) }}" class="text-blue-500 hover:text-blue-700">{{$project->company->name}}</a></p>
           <p class="text-gray-600 dark:text-gray-400 text-sm">Address: {{ $project->address }}</p>
           <p class="text-gray-600 dark:text-gray-400 text-sm">Completion: {{ $project->completion }}</p>
-          <p class="text-gray-800 dark:text-gray-400 text-lg">Design_Story: <br>{{ $project->design_story }}</p>
+          <p class="text-gray-800 dark:text-gray-400 text-lg">Design_Story:</p>
+          <p class="text-gray-600 dark:text-gray-400 text-sm">{{ $project->design_story }}</p>
           
           <!-- Add Translation Form -->
           <div class="mt-4">
