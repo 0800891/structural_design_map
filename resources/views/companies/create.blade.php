@@ -15,7 +15,7 @@
               @csrf
               <div class="mb-4">
                 <label for="company" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">New Company</label>
-                <input type="text" name="name" id="name" placeholder="会社名を入力してください" class="shadow appearance-none border rounded w-full py-2 px-3  text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <input type="text" name="name" id="name" placeholder="Input Company Name" class="shadow appearance-none border rounded w-full py-2 px-3  text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 @error('company')
                 <span class="text-red-500 text-xs italic">{{ $message }}</span>
                 @enderror

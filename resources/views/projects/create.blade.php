@@ -8,8 +8,8 @@
     </x-slot>
   @if(auth()->user()->company_id ==1)
   <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-  会社が登録されていないとプロジェクトの登録はできません<br>
-  Profileから会社名を登録してください
+  You cannot register new project because you are not belong to any companies yet.<br>
+  Please register your company from "Profile".
   </div>
   @else
     <div class="py-12">
@@ -20,11 +20,11 @@
               @csrf
               <div class="mb-4">
                 <label for="project" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">New Project</label>
-                <input type="text" name="name" id="name" placeholder="プロジェクト名を入力してください" class="shadow appearance-none border rounded w-full py-2 px-3  text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline" autocomplete="name">
-                <input type="text" name="address" id="address" placeholder="住所を入力してください" class="shadow appearance-none border rounded w-full py-2 px-3 mt-2 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline" autocomplete="address">
-                <input type="number" name="completion" id="completion" placeholder="完成年を入力してください" class="shadow appearance-none border rounded w-full py-2 px-3 mt-2 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <input type="text" name="design_story" id="design_story" placeholder="構造デザインの説明を入力してください" class="shadow appearance-none border rounded w-full py-2 px-3 mt-2 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <p id="img_text">登録したい画像のファイルを３つ選択してください<br></p>
+                <input type="text" name="name" id="name" placeholder="Project Name" class="shadow appearance-none border rounded w-full py-2 px-3  text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline" autocomplete="name">
+                <input type="text" name="address" id="address" placeholder="Address" class="shadow appearance-none border rounded w-full py-2 px-3 mt-2 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline" autocomplete="address">
+                <input type="number" name="completion" id="completion" placeholder="Completion Year" class="shadow appearance-none border rounded w-full py-2 px-3 mt-2 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <input type="text" name="design_story" id="design_story" placeholder="Input Structural Design story" class="shadow appearance-none border rounded w-full py-2 px-3 mt-2 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <p id="img_text">Upload 3 images related to this project<br></p>
                 <input type="file" id="img_01" name="picture_01_link" accept="image/*" required><br>
                 <input type="file" id="img_02" name="picture_02_link" accept="image/*" required><br>
                 <input type="file" id="img_03" name="picture_03_link" accept="image/*" required><br>

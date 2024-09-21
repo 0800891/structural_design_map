@@ -134,7 +134,7 @@
 
                                     <p class="mt-4 text-sm/relaxed">
                                         {{-- Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process. --}}
-                                        ######1
+                                        Projects registered by structural engineering companies are visualized on the world map. You can check from the map where any projects you want to know are.
                                     </p>
                                 </div>
 
@@ -152,12 +152,13 @@
                                 <div class="pt-3 sm:pt-5">
                                     <h2 class="text-xl font-semibold text-black dark:text-white">
                                         {{-- Laravel News --}}
-                                        Find Structural Design Story Globally
+                                        Find Structural Design Stories Globally
                                     </h2>
 
                                     <p class="mt-4 text-sm/relaxed">
                                         {{-- Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials. --}}
-                                        ######2
+                                        Project stories are registered and summurized with three pinup images by structural engineering companies all over the world. You can get innovative ideas of structural design.
+                                        Stories are not written in English? Don't worry. You can translate stories into seven languages including English.
                                     </p>
                                 </div>
 
@@ -178,12 +179,12 @@
                                 <div class="pt-3 sm:pt-5">
                                     <h2 class="text-xl font-semibold text-black dark:text-white">
                                         {{-- Vibrant Ecosystem --}}
-                                        Bookmark Your Favorite Projetcs
+                                        Bookmark Projetcs You liked
                                     </h2>
 
                                     <p class="mt-4 text-sm/relaxed">
                                         {{-- Laravel's robust library of first-party tools and libraries, such as <a href="https://forge.laravel.com" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white dark:focus-visible:ring-[#FF2D20]">Forge</a>, <a href="https://vapor.laravel.com" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Vapor</a>, <a href="https://nova.laravel.com" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Nova</a>, <a href="https://envoyer.io" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Envoyer</a>, and <a href="https://herd.laravel.com" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Herd</a> help you take your projects to the next level. Pair them with powerful open source libraries like <a href="https://laravel.com/docs/billing" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Cashier</a>, <a href="https://laravel.com/docs/dusk" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Dusk</a>, <a href="https://laravel.com/docs/broadcasting" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Echo</a>, <a href="https://laravel.com/docs/horizon" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Horizon</a>, <a href="https://laravel.com/docs/sanctum" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Sanctum</a>, <a href="https://laravel.com/docs/telescope" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Telescope</a>, and more. --}}
-                                        ######3
+                                        If you find your favorite projects, do not miss pressing "like" button shown in the bottom-most. By doing so, only your liked projects are shown in "Dashboard".
                                     </p>
                                 </div>
                             </div>
