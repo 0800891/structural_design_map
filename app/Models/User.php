@@ -49,4 +49,8 @@ class User extends Authenticatable
     public function company(){
         return $this -> belongsTo(Company::class);
     }
+
+    public function likes(){
+        return $this->belongsToMany(Project::class)->withTimestamps();
+    }
 }

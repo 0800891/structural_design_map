@@ -21,7 +21,22 @@
                     <img src="{{ asset($project->picture_01_link) }}" alt="Picture 01" class="w-32 h-32 object-cover">
                 {{-- </a> --}}
                 @endif
-                
+                {{-- 🔽 追加 --}}
+            <div class="flex">
+              @if ($project->liked->contains(auth()->id()))
+              <form action="{{ route('projects.dislike', $project) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="text-red-500 hover:text-red-700">dislike {{$project->liked->count()}}</button>
+              </form>
+              @else
+              <form action="{{ route('projects.like', $project) }}" method="POST">
+                @csrf
+                <button type="submit" class="text-blue-500 hover:text-blue-700">like {{$project->liked->count()}}</button>
+              </form>
+              @endif
+            </div>
+            {{-- 🔼 ここまで --}}
             </div>
             @endforeach
           </div>

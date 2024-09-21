@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use App\Models\Project;
 use App\Models\Company;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class ProjectController extends Controller
         // return view('projects.index', compact('projects'));
 
         // Fetch all projects with their company relationships
-    $projects = Project::with('company')->get();
+    $projects = Project::with(['company','liked'])->latest()->get();
     
     // Create a collator for locale-based comparison (set locale to Japanese)
     $collator = new \Collator('ja_JP');

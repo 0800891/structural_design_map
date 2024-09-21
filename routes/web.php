@@ -6,6 +6,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\TranslationController;
+use App\Http\Controllers\ProjectLikeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,6 +36,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/translation', [TranslationController::class, 'index'])->name('translation-index');
     // Route::post('/translation', [TranslationController::class, 'translation'])->name('translation-translation');
     Route::post('/translation', [TranslationController::class, 'translation'])->name('translation');
+
+    Route::post('/projects/{project}/like', [ProjectLikeController::class, 'store'])->name('projects.like');
+    Route::delete('/projects/{project}/like', [ProjectLikeController::class, 'destroy'])->name('projects.dislike');
 
 });
 

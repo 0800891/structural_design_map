@@ -24,4 +24,8 @@ class Project extends Model
     public function company(){
         return $this -> belongsTo(Company::class);
     }
+
+    public function liked(){
+        return $this -> belongsToMany(User::class)->withTimestamps();
+    }
 }
