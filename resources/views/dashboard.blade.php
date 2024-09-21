@@ -26,8 +26,9 @@
                     {{-- Display liked projects --}}
                     <h3 class="text-lg font-semibold mt-6 px-6">{{ __('Liked Projects') }}</h3>
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="overflow-hidden">
                     {{-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 px-6 flex flex-wrop"> --}}
-                    <div class="gap-4 mt-4 px-6 flex flex-wrop">
+                    <div class="gap-4 mt-4 px-6 flex flex-wrap">
                         @foreach ($likedProjects as $project)
                         <div class="border mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg flex-grow">
                             {{-- <p class="text-gray-800 dark:text-gray-300">{{ $project->name }}</p> --}}
@@ -46,6 +47,7 @@
                     </div>
                 </div>
             </div>
+        </div>
             </div>
         </div>
     </div>
