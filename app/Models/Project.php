@@ -12,6 +12,8 @@ class Project extends Model
     protected $fillable = [
         'name',
         'address',
+        'latitude',   // Make sure latitude is fillable
+        'longitude',  // Make sure longitude is fillable
         'completion',
         'company_id',
         'design_story',

@@ -26,6 +26,8 @@ class MapController extends Controller
                 'picture_03_link'=>$project->picture_03_link,
                 'created_at'=>$project->created_at,
                 'updated_at'=>$project->updated_at,
+                'latitude'=>$project->latitude,
+                'longitude'=>$project->longitude,
                 'company'=>[
                     'id'=>$project->company->id,
                     'name'=>$project->company->name,

@@ -116,9 +116,11 @@
 
                             if (project) {
                                  // Fetch the coordinates for the selected project
-                                let coordinates = await getCoordinates(project.address);
-                                current_position_latitude = coordinates[0];
-                                current_position_longitude = coordinates[1];
+                                // let coordinates = await getCoordinates(project.address);
+                                // current_position_latitude = coordinates[0];
+                                current_position_latitude = project.latitude;
+                                // current_position_longitude = coordinates[1];
+                                current_position_longitude = project.longitude;
                                 isGeolocationReady = true; // Set flag to true once coordinates are available
                                 console.log("CP03",current_position_latitude, current_position_longitude);
                             }
@@ -150,10 +152,10 @@
                             let infoWindow =[];
                     
                             // Prepare the list of promises for fetching coordinates
-                            let promises = phpArray_project.map(project => getCoordinates(project.address));
+                            // let promises = phpArray_project.map(project => getCoordinates(project.address));
                     
                             // Wait for all the getCoordinates() promises to resolve
-                            let coordinates = await Promise.all(promises);
+                            // let coordinates = await Promise.all(promises);
                     
                             // Process the coordinates and prepare the markerData array
                             for (let i = 0; i < phpArray_project.length; i++) {
@@ -163,8 +165,10 @@
                                     address: phpArray_project[i].address,
                                     design_code: 'EURO_Code',
                                     dc_image: phpArray_project[i].picture_01_link,
-                                    lat: coordinates[i][0],
-                                    lng: coordinates[i][1],
+                                    // lat: coordinates[i][0],
+                                    lat: Number(phpArray_project[i].latitude),
+                                    // lng: coordinates[i][1],
+                                    lng: Number(phpArray_project[i].longitude),
                                     icon: phpArray_project[i].picture_02_link,
                                     project_url:"{{ route('projects.show', ':id') }}".replace(':id', phpArray_project[i].id),
                                     company_url:"{{ route('companies.show', ':id') }}".replace(':id', phpArray_project[i].company.id),

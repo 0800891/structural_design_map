@@ -51,6 +51,8 @@ class ProjectController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'address' => 'required|max:255',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
             'completion' => 'required|integer',
             'company_id' => 'required|integer',
             'design_story' => 'required',
@@ -61,7 +63,7 @@ class ProjectController extends Controller
             // 'picture_03_link' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
             'picture_03_link' => 'required|file|mimes:jpeg,png,jpg,gif',
         ]);
-
+        try {
         $dir='img';
 
         
@@ -94,6 +96,8 @@ class ProjectController extends Controller
         $project = Project::create([
             'name' => $request->name,
             'address' => $request->address,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'completion'=>$request->completion,
             'company_id'=>$request->company_id,
             'design_story'=>$request->design_story,
@@ -102,6 +106,11 @@ class ProjectController extends Controller
             'picture_03_link' => $file_name_03 ? '/storage/' . $dir . '/' . $file_name_03 : null,
                     ]);   
 
+                session()->flash('success', 'Project registered successfully!');
+                } catch (\Exception $e) {
+                session()->flash('error', 'Failed to register project. Please try again.');
+                }
+                dd($request->all());
         // return redirect() -> route('projects.index');
         return back();
     }
@@ -133,18 +142,27 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
+        // Check if the method is reached
+       
         $request->validate([
             'name' => 'required|max:255',
             'address' => 'required|max:255',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
             'completion' => 'required|integer',
             'company_id' => 'required|integer',
             'design_story' => 'required',
         ]);
-    
+
+
+    try{
+
         $dir='img';
         $updateData = [
             'name' => $request->name,
             'address' => $request->address,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'completion' => $request->completion,
             'design_story' => $request->design_story,
         ];
@@ -171,6 +189,10 @@ class ProjectController extends Controller
         }
     
         $project->update($updateData);
+        session()->flash('success', 'Project updated successfully!');
+    } catch (\Exception $e) {
+        session()->flash('error', 'Failed to update project. Please try again.');
+    }
     
         return redirect()->route('projects.show', $project);
     }

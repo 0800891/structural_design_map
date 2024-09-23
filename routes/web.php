@@ -39,6 +39,7 @@ Route::get('/dashboard', function () {
 
     Route::post('projects', [ProjectController::class,'store'])->name('projects.store');
     // Route::post('/projects/store', [ProjectController::class,'store'])->name('projects.store');
+    Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
 
     Route::post('companies', [CompanyController::class,'store'])->name('companies.store');
 
