@@ -9,12 +9,6 @@ use App\Http\Controllers\TranslationController;
 use App\Http\Controllers\ProjectLikeController;
 
 
-// Test route
-Route::get('/test-route', function() {
-    return 'Test route is working!';
-});
-
-
 // Route::get('/projects/openai-search', [ProjectController::class, 'openai_search'])->name('projects.openai_search');
 
 Route::get('/', function () {

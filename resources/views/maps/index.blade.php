@@ -130,8 +130,8 @@
                             await new Promise((resolve, reject) => {
                                 navigator.geolocation.getCurrentPosition(
                                     function (position) {
-                                        current_position_latitude = position.coords.latitude;
-                                        current_position_longitude = position.coords.longitude;
+                                        current_position_latitude = Number(position.coords.latitude);
+                                        current_position_longitude = Number(position.coords.longitude);
                                         isGeolocationReady = true; // Set flag to true once geolocation is available
                                         resolve();
                                         console.log("CP04",current_position_latitude, current_position_longitude);
@@ -182,8 +182,8 @@
                                         address: 'None',
                                         design_code: 'None',
                                         dc_image: 'None',
-                                        lat: current_position_latitude,
-                                        lng: current_position_longitude,
+                                        lat: Number(current_position_latitude),
+                                        lng: Number(current_position_longitude),
                                         icon: 'None',
                                         project_url:'None',
                                         company_url:'None',
@@ -192,7 +192,7 @@
                                 // }
                                 
                                 // var mapLatLng = new google.maps.LatLng({lat: markerData.slice(-1)[0]['lat'], lng: markerData.slice(-1)[0]['lng']}); 
-                                var mapLatLng = new google.maps.LatLng({lat: current_position_latitude, lng: current_position_longitude});
+                                var mapLatLng = new google.maps.LatLng({lat: Number(current_position_latitude), lng: Number(current_position_longitude)});
                                 var map = new google.maps.Map(document.getElementById('map'), {
                                     center: mapLatLng, 
                                     zoom: 15 
