@@ -201,97 +201,100 @@ class ProjectController extends Controller
      * OpenAI Search for projects based on user input.
      */
     public function openai_search(Request $request)
-{
-    \Log::info('OpenAI Search initiated');
-
-    // Explicitly retrieve the API key from the .env file
-    $apiKey = env('OPENAI_API_KEY');
-    if (empty($apiKey)) {
-        \Log::error('OpenAI API key is missing or not set.');
-        return back()->withErrors(['message' => 'API key is missing.']);
-    }
-
-    // Validate the search query
-    $request->validate([
-        'search_query' => 'required|string|max:255',
-    ]);
-
-    // Fetch all projects' design stories
-    $projects = Project::with('company')->get();
-
-    // Prepare the design stories for the search
-    $designStories = $projects->map(function ($project) {
-        return [
-            'id' => $project->id,
-            'name' => $project->name,
-            'company' => $project->company->name,
-            'design_story' => $project->design_story,
-        ];
-    });
-
-    // Prepare the prompt for OpenAI
-    $prompt = "Find the top 3 most related projects based on the following description: \n\n"
-        . $request->search_query . "\n\n"
-        . "Here are the available projects and their design stories:\n\n";
-
-    foreach ($designStories as $story) {
-        $prompt .= "Project: " . $story['name'] . " by " . $story['company'] . "\n";
-        $prompt .= "Design Story: " . $story['design_story'] . "\n\n";
-    }
-
-    try {
-        // Use the OpenAI API
-        $client = new Client();
-        $response = $client->post('https://api.openai.com/v1/chat/completions', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $apiKey,
-                'Content-Type' => 'application/json',
-            ],
-            'json' => [
-                'model' => 'gpt-4o-mini',  // Use a valid model like gpt-3.5-turbo
-                'messages' => [
-                    ['role' => 'system', 'content' => 'You are a helpful assistant.'],
-                    ['role' => 'user', 'content' => $prompt],
-                ],
-                'max_tokens' => 1000,
-                'temperature' => 0.5,
-            ],
-        ]);
-
-        $body = json_decode($response->getBody(), true);
-
-        if (isset($body['choices'][0]['message']['content'])) {
-            $gptResponse = $body['choices'][0]['message']['content'];
-            \Log::info('GPT-3 Response Text:', [$gptResponse]);
-
-            // Split the response text into lines and remove any unwanted characters
-            $results = array_filter(array_map('trim', explode("\n", $gptResponse)));
-
-            \Log::info('Processed Results:', $results);
-
-            // **Flexible Matching of Project Names**
-            $relatedProjects = $projects->filter(function ($project) use ($results) {
-                // Check if any result line contains the project name
-                foreach ($results as $result) {
-                    if (str_contains($result, $project->name)) {
-                        return true;
-                    }
-                }
-                return false;
-            })->take(10);
-
-            // Return the filtered projects to the view
-            return view('projects.search', ['projects' => $relatedProjects]);
-
-        } else {
-            \Log::error('OpenAI response missing message content');
-            return back()->withErrors(['message' => 'Error in OpenAI response.']);
+    {
+        \Log::info('OpenAI Search initiated');
+    
+        // Explicitly retrieve the API key from the .env file
+        $apiKey = env('OPENAI_API_KEY');
+        if (empty($apiKey)) {
+            \Log::error('OpenAI API key is missing or not set.');
+            return back()->withErrors(['message' => 'API key is missing.']);
         }
-
-    } catch (\Exception $e) {
-        \Log::error('OpenAI API error: ' . $e->getMessage());
-        return back()->withErrors(['message' => 'Error occurred during OpenAI request.']);
+    
+        // Validate the search query
+        $request->validate([
+            'search_query' => 'required|string|max:255',
+        ]);
+    
+        // Fetch all projects' design stories
+        $projects = Project::with('company')->get();
+    
+        // Prepare the design stories for the search
+        $designStories = $projects->map(function ($project) {
+            return [
+                'id' => $project->id,
+                'name' => $project->name,
+                'company' => $project->company->name,
+                'design_story' => $project->design_story,
+            ];
+        });
+    
+        // Prepare the prompt for OpenAI to include project name, company name, and design story
+        $prompt = "Find all related projects based on the following description and list them in order of relevance: \n\n"
+            . $request->search_query . "\n\n"
+            . "Here are the available projects with their names, companies, and design stories:\n\n";
+    
+        foreach ($designStories as $story) {
+            $prompt .= "Project: " . $story['name'] . " by " . $story['company'] . "\n";
+            $prompt .= "Design Story: " . $story['design_story'] . "\n\n";
+        }
+    
+        try {
+            // Use the OpenAI API
+            $client = new Client();
+            $response = $client->post('https://api.openai.com/v1/chat/completions', [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $apiKey,
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'model' => 'gpt-4o-mini',  // Use a valid model like gpt-3.5-turbo
+                    'messages' => [
+                        ['role' => 'system', 'content' => 'You are a helpful assistant.'],
+                        ['role' => 'user', 'content' => $prompt],
+                    ],
+                    'max_tokens' => 1000,
+                    'temperature' => 0.5,
+                ],
+            ]);
+    
+            $body = json_decode($response->getBody(), true);
+    
+            if (isset($body['choices'][0]['message']['content'])) {
+                $gptResponse = $body['choices'][0]['message']['content'];
+                \Log::info('GPT Response Text:', [$gptResponse]);
+    
+                // Split the response text into lines and remove any unwanted characters
+                $results = array_filter(array_map('trim', explode("\n", $gptResponse)));
+    
+                \Log::info('Processed Results:', $results);
+    
+                // **Flexible Matching of Project Names, Companies, or Design Stories**
+                $relatedProjects = $projects->filter(function ($project) use ($results) {
+                    // Check if any result line contains the project name, company name, or design story
+                    foreach ($results as $result) {
+                        if (
+                            str_contains($result, $project->name) ||
+                            str_contains($result, $project->company->name) ||
+                            str_contains($result, $project->design_story)
+                        ) {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
+    
+                // Return the filtered projects to the view (no limit applied)
+                return view('projects.search', ['projects' => $relatedProjects]);
+    
+            } else {
+                \Log::error('OpenAI response missing message content');
+                return back()->withErrors(['message' => 'Error in OpenAI response.']);
+            }
+    
+        } catch (\Exception $e) {
+            \Log::error('OpenAI API error: ' . $e->getMessage());
+            return back()->withErrors(['message' => 'Error occurred during OpenAI request.']);
+        }
     }
-}
-
 }
