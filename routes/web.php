@@ -8,6 +8,15 @@ use App\Http\Controllers\MapController;
 use App\Http\Controllers\TranslationController;
 use App\Http\Controllers\ProjectLikeController;
 
+
+// Test route
+Route::get('/test-route', function() {
+    return 'Test route is working!';
+});
+
+
+// Route::get('/projects/openai-search', [ProjectController::class, 'openai_search'])->name('projects.openai_search');
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -15,8 +24,10 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+    
+    Route::middleware('auth')->group(function () {
 
-Route::middleware('auth')->group(function () {
+    Route::get('/projects/openai-search', [ProjectController::class, 'openai_search'])->name('projects.openai_search');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -41,6 +52,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/projects/{project}/like', [ProjectLikeController::class, 'destroy'])->name('projects.dislike');
 
     Route::get('/dashboard', [ProjectController::class, 'dashboard'])->name('dashboard');
+
+   
+    // Route::get('/projects/openai-search', [ProjectController::class, 'openai_search'])->name('projects.openai_search');
+
+
+
 });
+
 
 require __DIR__.'/auth.php';

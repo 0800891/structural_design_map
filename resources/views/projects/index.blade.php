@@ -4,6 +4,17 @@
         {{ __('Project List') }}
       </h2>
     </x-slot>
+
+        <!-- Search Form -->
+        <div class="py-4">
+          <form action="{{ route('projects.openai_search') }}" method="GET">
+            @csrf
+            <div class="flex">
+                <input type="text" name="search_query" class="form-input rounded-lg shadow-sm w-full" placeholder="Search for projects...">
+                <button type="submit" class="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700">Search</button>
+            </div>
+        </form>
+      </div>
   
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
