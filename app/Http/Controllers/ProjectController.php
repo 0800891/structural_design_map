@@ -110,7 +110,7 @@ class ProjectController extends Controller
                 } catch (\Exception $e) {
                 session()->flash('error', 'Failed to register project. Please try again.');
                 }
-                dd($request->all());
+               
         // return redirect() -> route('projects.index');
         return back();
     }
