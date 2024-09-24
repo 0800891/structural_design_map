@@ -219,7 +219,7 @@ class ProjectController extends Controller
     return view('dashboard', compact('likedProjects'));
 }
 
- /**
+    /**
      * OpenAI Search for projects based on user input.
      */
     public function openai_search(Request $request)
@@ -238,27 +238,31 @@ class ProjectController extends Controller
             'search_query' => 'required|string|max:255',
         ]);
     
-        // Fetch all projects' design stories
+        // Fetch all projects with related company information
         $projects = Project::with('company')->get();
     
-        // Prepare the design stories for the search
-        $designStories = $projects->map(function ($project) {
+        // Prepare the data (including name, company name, design story, address, and completion year)
+        $projectDetails = $projects->map(function ($project) {
             return [
                 'id' => $project->id,
                 'name' => $project->name,
                 'company' => $project->company->name,
                 'design_story' => $project->design_story,
+                'address' => $project->address,
+                'completion' => $project->completion,
             ];
         });
     
-        // Prepare the prompt for OpenAI to include project name, company name, and design story
+        // Prepare the prompt for OpenAI to include all relevant fields
         $prompt = "Find all related projects based on the following description and list them in order of relevance: \n\n"
             . $request->search_query . "\n\n"
-            . "Here are the available projects with their names, companies, and design stories:\n\n";
+            . "Here are the available projects with their names, companies, design stories, addresses, and completion years:\n\n";
     
-        foreach ($designStories as $story) {
-            $prompt .= "Project: " . $story['name'] . " by " . $story['company'] . "\n";
-            $prompt .= "Design Story: " . $story['design_story'] . "\n\n";
+        foreach ($projectDetails as $detail) {
+            $prompt .= "Project: " . $detail['name'] . " by " . $detail['company'] . "\n";
+            $prompt .= "Design Story: " . $detail['design_story'] . "\n";
+            $prompt .= "Address: " . $detail['address'] . "\n";
+            $prompt .= "Completion Year: " . $detail['completion'] . "\n\n";
         }
     
         try {
@@ -291,14 +295,16 @@ class ProjectController extends Controller
     
                 \Log::info('Processed Results:', $results);
     
-                // **Flexible Matching of Project Names, Companies, or Design Stories**
+                // Flexible matching of project fields
                 $relatedProjects = $projects->filter(function ($project) use ($results) {
-                    // Check if any result line contains the project name, company name, or design story
+                    // Check if any result line contains the project name, company name, design story, address, or completion year
                     foreach ($results as $result) {
                         if (
                             str_contains($result, $project->name) ||
                             str_contains($result, $project->company->name) ||
-                            str_contains($result, $project->design_story)
+                            str_contains($result, $project->design_story) ||
+                            str_contains($result, $project->address) ||
+                            str_contains($result, $project->completion)
                         ) {
                             return true;
                         }
@@ -319,4 +325,5 @@ class ProjectController extends Controller
             return back()->withErrors(['message' => 'Error occurred during OpenAI request.']);
         }
     }
+    
 }
