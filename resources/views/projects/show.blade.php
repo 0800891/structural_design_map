@@ -36,7 +36,7 @@
               
               <!-- Add Language Dropdown -->
               <label for="target_lang">Translate to:</label>
-              <select name="target_lang" id="target_lang" class="border-gray-300 rounded-md shadow-sm">
+              <select name="target_lang" id="target_lang" class="border-gray-300 rounded-md shadow-sm text-gray-800">
                 <option value="EN-US">English (US)</option>
                 <option value="JA">Japanese</option>
                 <option value="DE">German</option>
