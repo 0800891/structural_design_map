@@ -1,7 +1,8 @@
 <!-- resources/views/translation.blade.php -->
 <x-app-layout>
     <x-slot name="header" style="background-color:rgb(236,230,198)">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-800" >
+            {{-- leading-tight"> --}}
             {{ __('Translation Result') }}
         </h2>
     </x-slot>
