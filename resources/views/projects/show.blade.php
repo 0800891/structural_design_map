@@ -108,3 +108,11 @@
     </div>
   </div>
 </x-app-layout>
+<script>
+  // https://lokeshdhakar.com/projects/lightbox2/
+  lightbox.option({
+    'resizeDuration': 200,
+    'wrapAround': true,
+    'fitImagesInViewport':true
+  })
+</script>
