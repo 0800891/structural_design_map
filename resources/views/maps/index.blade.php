@@ -14,22 +14,27 @@
                    
                     
                 <div>Sort By
-                    <select id="select_company" class="block mt-1 w-full" value=1>
-                        {{-- @if(isset($commpanies[0])) --}}
-                        @if(isset($companies))
+                    <form action="{{ route('maps.index') }}" method="GET">
+                        <select id="select_company" name="company_id" class="block mt-1 w-full">
+                            <!-- Explicitly include "ALL Company" as the first option -->
+                            <option value="1" {{ $selectedCompanyId == 1 ? 'selected' : '' }}>ALL Company</option>
+
+
+                            <!-- List sorted companies -->
                             @foreach($companies as $company)
-                                @if(($company->id)===1)
-                                    <option value="{{ $company->id }}">ALL Company</option>
-                                @else
-                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
-                                @endif
+                            @if($company->id>1)
+                            <option value="{{ $company->id }}" {{ $selectedCompanyId == $company->id ? 'selected' : '' }}>
+                                {{ $company->name }}
+                            </option>
+                            @else
+                            @endif
                             @endforeach
-                        @else
-                            <option value=1>ALL Company</option>
-                        @endif
-                    </select>
+                        </select>
+                        {{-- <button type="submit" class="bg-gray-500 hover:bg-blue-700 text-black border-full font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline">Select Company</button> --}}
+                        <button id="btn_company" class="bg-gray-500 hover:bg-blue-700 text-black border-full font-bold  py-1 px-2 rounded focus:outline-none focus:shadow-outline" onclick="choose_company()" >Select Company</button>
+                    </form>
                 </div>
-                    <button id="btn_company" class="bg-gray-500 hover:bg-blue-700 text-black border-full font-bold  py-1 px-2 rounded focus:outline-none focus:shadow-outline" onclick="choose_company()" >Select Company</button>
+                    
                     <div id="map" style="height: 500px; width: 100%;"></div> 
                     <button onclick="getNow()" class="bg-gray-500 hover:bg-blue-700 text-black border-full font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline">Update Where You Are</button>  
                 <div>

@@ -23,9 +23,11 @@
             <select id="select_company" name="company_id" class="form-input rounded-lg shadow-sm w-full">
                 <option value="1" {{ request('company_id') == 1 ? 'selected' : '' }}>ALL Company</option>
                 @foreach($companies as $company)
+                @if($company->id>1)
                     <option value="{{ $company->id }}" {{ request('company_id') == $company->id ? 'selected' : '' }}>
                         {{ $company->name }}
                     </option>
+                @endif
                 @endforeach
             </select>
             <button type="submit" class="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700">Select</button>

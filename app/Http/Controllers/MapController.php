@@ -9,11 +9,28 @@ use App\Models\Company;
 class MapController extends Controller
 {
     public function index(Request $request){
+    // Default to 'All Company' (id=1)
+        $company_id = $request->input('company_id', 1);
+
         $companies = Company::all();
-        $projects = Project::with('company')->get(); // Fetch projects
-        // $companies = Company::all();
-        // $projectIndexes = $projects->pluck('id','name','address','completion')->toArray(); // Get the indexes or any required data
-    
+    // Sort companies alphabetically using a collator for locale-aware sorting (Japanese support)
+        $collator = new \Collator('ja_JP'); 
+        $sortedCompanies = $companies->sort(function($a, $b) use ($collator) {
+        return $collator->compare($a->name, $b->name);
+        });
+
+        // Fetch projects with their related companies
+    if ($company_id == 1) {
+        // If "ALL Company" is selected, get all projects
+        $projects = Project::with('company')->get();
+    } else {
+        // Otherwise, filter by the selected company
+        $projects = Project::with('company')
+            ->where('company_id', $company_id)
+            ->get();
+    }
+
+    // Combine the data for JSON
         $combinedData = $projects->map(function($project){
             return [
                 'id'=> $project->id,
@@ -49,7 +66,12 @@ class MapController extends Controller
             return redirect()->route('maps.index'); // This will remove the query string
          }
     
-        return view('maps.index', compact('projects','jsonData','companies')); // Pass to Blade view
+        return view('maps.index', [
+            'projects' => $projects,
+            'jsonData' => $jsonData,
+            'companies' => $sortedCompanies, // Sorted companies
+            'selectedCompanyId' => $company_id // Pass the selected company ID to the view
+        ]); // Pass to Blade view
     }
 
 }
