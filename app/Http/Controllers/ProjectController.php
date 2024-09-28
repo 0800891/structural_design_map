@@ -1,13 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Services\GPTService;
+
 use App\Models\User;
 use App\Models\Project;
 use App\Models\Company;
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 // use OpenAI\Laravel\Facades\OpenAI;
 use GuzzleHttp\Client;
 // use OpenAI;
+use Illuminate\Support\Facades\Http;
 
 class ProjectController extends Controller
 {
@@ -335,5 +339,39 @@ class ProjectController extends Controller
             return back()->withErrors(['message' => 'Error occurred during OpenAI request.']);
         }
     }
+    
+    public function storeFeedback(Request $request, $id)
+    {
+        // try {
+            $request->validate([
+                'comment' => 'nullable|string|max:255',
+                'feedback' => 'required|in:good,bad',
+                'search_query' => 'required|string',
+            ]);
+    
+            // Fetch the project by its ID
+            $project = Project::findOrFail($id);
+    
+            \Log::info('Request Data:', $request->all());
+            \Log::info('Project ID: ' . $project->id);
+    
+            // Store feedback in the database
+            Feedback::create([
+                'project_id' => $project->id,
+                'user_id' => auth()->id(),
+                'search_query' => $request->search_query,
+                'feedback' => $request->feedback,
+                'comment' => $request->comment,
+            ]);
+    
+            GPTService::sendFeedbackToGPT($request->only(['feedback', 'comment', 'search_query']));
+    
+            return redirect()->back()->with('status', 'Feedback submitted successfully.');
+        // } catch (\Exception $e) {
+        //     \Log::error('Error storing feedback: ' . $e->getMessage());
+        //     return redirect()->back()->withErrors(['message' => 'Failed to submit feedback.']);
+        // }
+    }
+    
     
 }

@@ -49,7 +49,7 @@ Route::get('/dashboard', function () {
     Route::get('/dashboard', [ProjectController::class, 'dashboard'])->name('dashboard');
 
    
-    // Route::get('/projects/openai-search', [ProjectController::class, 'openai_search'])->name('projects.openai_search');
+    Route::post('/projects/{id}/feedback', [ProjectController::class, 'storeFeedback'])->name('projects.feedback');
 
 
 

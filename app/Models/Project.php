@@ -30,4 +30,9 @@ class Project extends Model
     public function liked(){
         return $this -> belongsToMany(User::class)->withTimestamps();
     }
+    
+    public function feedback(){
+        return $this -> hasMany(Feedback::class);
+    }
+
 }

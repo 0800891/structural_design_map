@@ -28,6 +28,22 @@
                                 <img src="{{ asset($project->picture_01_link) }}" alt="{{ $project->name }} Image" class="w-32 h-32 object-cover mt-2">
                             @endif
 
+                            <!-- Feedback Section -->
+                            <div class="mt-4">
+                                <form action="{{ route('projects.feedback', $project->id) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="search_query" value="{{ request('search_query') }}"> <!-- Store search query -->
+                                    
+                                    <label for="feedback_comment_{{ $project->id }}" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Your Feedback:</label>
+                                    <textarea id="feedback_comment_{{ $project->id }}" name="comment" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Leave a comment..."></textarea>
+                                    
+                                    <div class="flex space-x-4 mt-2">
+                                        <button type="submit" name="feedback" value="good" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-700">Good</button>
+                                        <button type="submit" name="feedback" value="bad" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700">Bad</button>
+                                    </div>
+                                </form>
+                            </div>
+
                             <!-- Like/Dislike Button -->
                             <div class="flex mt-2">
                                 @if ($project->liked->contains(auth()->id()))
