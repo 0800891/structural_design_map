@@ -15,11 +15,29 @@
             </div>
         </form>
       </div>
+
+      <div class="py-4">
+        <form action="{{ route('projects.index') }}" method="GET">
+            @csrf
+            <div class="mx-10 flex">
+            <select id="select_company" name="company_id" class="form-input rounded-lg shadow-sm w-full">
+                <option value="1" {{ request('company_id') == 1 ? 'selected' : '' }}>ALL Company</option>
+                @foreach($companies as $company)
+                    <option value="{{ $company->id }}" {{ request('company_id') == $company->id ? 'selected' : '' }}>
+                        {{ $company->name }}
+                    </option>
+                @endforeach
+            </select>
+            <button type="submit" class="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700">Select</button>
+          </div>
+          </form>
+    </div>
   
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
           <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-wrap">
+            {{-- @if() --}}
             @foreach ($projects as $project)
             <div class="border mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg flex-grow">
               <p class="text-gray-800 dark:text-gray-300">{{ $project->project }}</p>
@@ -48,6 +66,8 @@
             </div>
             </div>
             @endforeach
+            {{-- @else
+            @endif --}}
           </div>
         </div>
       </div>

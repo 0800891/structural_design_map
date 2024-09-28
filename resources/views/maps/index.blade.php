@@ -13,7 +13,7 @@
                     {{-- {{ __("Structural Design Map") }} --}}
                    
                     
-                    <div>Sort By
+                <div>Sort By
                     <select id="select_company" class="block mt-1 w-full" value=1>
                         {{-- @if(isset($commpanies[0])) --}}
                         @if(isset($companies))

@@ -14,26 +14,31 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        // $projects = Project::with('company')->latest()->get();
-        // $projects = Project::with('company')->orderBy('name', 'asc')->get();
-        // return view('projects.index', compact('projects'));
+    public function index(Request $request)
+{
+    $company_id = $request->input('company_id', 1); // Default to 'All Company' (id=1)
 
-        // Fetch all projects with their company relationships
-    $projects = Project::with(['company','liked'])->latest()->get();
-    
-    // Create a collator for locale-based comparison (set locale to Japanese)
+    // Fetch all companies for the dropdown
+    $companies = Company::all();
+
+    // If "All Company" is selected, show all projects; otherwise, filter by company
+    if ($company_id == 1) {
+        $projects = Project::with(['company', 'liked'])->latest()->get();
+    } else {
+        $projects = Project::with(['company', 'liked'])
+            ->where('company_id', $company_id)
+            ->latest()
+            ->get();
+    }
+
+    // Sort the collection using the collator (set locale to Japanese)
     $collator = new \Collator('ja_JP');
-
-    // Sort the collection using the collator
     $sortedProjects = $projects->sort(function($a, $b) use ($collator) {
-        // First compare project names (alphabetically or in Japanese)
         return $collator->compare($a->name, $b->name);
     });
 
-    return view('projects.index', ['projects' => $sortedProjects]);
-    }
+    return view('projects.index', ['projects' => $sortedProjects, 'companies' => $companies, 'selectedCompanyId' => $company_id]);
+}
 
     /**
      * Show the form for creating a new resource.
