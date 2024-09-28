@@ -70,7 +70,8 @@
                                 {{-- <div id="screenshot-container" class="relative flex w-full flex-1 items-stretch"> --}}
                                  <div>   
                                     {{-- <div  class="min-h-[45vh] bg-[url('/storage/img/Background.JPG')]  bg-center bg-cover"></div> --}}
-                                    <img src="/storage/img/Background.JPG" class="bg-center bg-cover">
+                                    {{-- <img src="/storage/img/Background.JPG" class="bg-center bg-cover"> --}}
+                                    <img src="/storage/img/Imaginary_Building_and_Bridge_On_worldmap_02.webp" class="bg-center bg-cover">
                                     {{-- <img
                                         src="https://laravel.com/assets/img/welcome/docs-light.svg"
                                         alt="Laravel documentation screenshot"
