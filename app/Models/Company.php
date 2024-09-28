@@ -11,6 +11,7 @@ class Company extends Model
 
     protected $fillable = [
         'name',
+        'homepage',  // Add this line to make homepage fillable
     ];
 
     public function user(){

@@ -11,14 +11,19 @@
           <div class="p-6 text-gray-900 dark:text-gray-100">
             <a href="{{ route('companies.index') }}" class="text-blue-500 hover:text-blue-700 mr-2">Back to Companies List</a>
             {{-- <p class="text-gray-800 dark:text-gray-300 text-lg">{{ $company->id }}</p> --}}
+            <div class="flex">
             <p class="text-gray-600 dark:text-gray-400 text-lg">Name: {{ $company->name }}</p>
-           
-            <div class="py-12">
+            
+              <p class="px-6 text-gray-600 dark:text-gray-400 text-lg">( <a href="{{$company->homepage}}" class=" text-blue-500 hover:text-blue-700 ">{{$company->homepage}}</a> )</p>
+            
+            </div>
+            <div class="py-2">
               <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                  <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{-- <table border="1"> --}}
-                    {{-- <tr> --}}
+
+                  
+
+                  <div class="p-2 text-gray-900 dark:text-gray-100">
                   <p>Employee List</p>
                   <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-wrap">
                   @foreach($users as $user)

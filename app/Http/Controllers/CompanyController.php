@@ -37,12 +37,19 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate the input, ensuring the company name is unique
+    $request->validate([
+        'name' => 'required|max:255|unique:companies,name',
+        'homepage' => 'nullable|url|max:255', // homepage is optional, but if provided, it must be a valid URL
+    ]);
+
+    // Create the new company after validation
         $company = Company::create([
             'name' => $request->name,
+            'homepage' => $request->homepage,
                     ]);   
                     
-        // return redirect() -> route('projects.index');
-        return back();
+         return back()->with('success', 'Company registered successfully!');
     }
 
     /**
