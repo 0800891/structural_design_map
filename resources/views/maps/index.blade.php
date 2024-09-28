@@ -15,9 +15,10 @@
                     
                 <div>Sort By
                     <form action="{{ route('maps.index') }}" method="GET">
-                        <select id="select_company" name="company_id" class="block mt-1 w-full">
+                        <div class="flex">
+                        <select id="select_company" name="company_id" class="block py-2 w-full rounded-lg">
                             <!-- Explicitly include "ALL Company" as the first option -->
-                            <option value="1" {{ $selectedCompanyId == 1 ? 'selected' : '' }}>ALL Company</option>
+                            <option value="1" {{ $selectedCompanyId == 1 ? 'selected' : '' }}>ALL Companies</option>
 
 
                             <!-- List sorted companies -->
@@ -31,12 +32,13 @@
                             @endforeach
                         </select>
                         {{-- <button type="submit" class="bg-gray-500 hover:bg-blue-700 text-black border-full font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline">Select Company</button> --}}
-                        <button id="btn_company" class="bg-gray-500 hover:bg-blue-700 text-black border-full font-bold  py-1 px-2 rounded focus:outline-none focus:shadow-outline" onclick="choose_company()" >Select Company</button>
+                        <button id="btn_company" class="px-4 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-700" onclick="choose_company()" >Select</button>
+                    </div>
                     </form>
                 </div>
                     
                     <div id="map" style="height: 500px; width: 100%;"></div> 
-                    <button onclick="getNow()" class="bg-gray-500 hover:bg-blue-700 text-black border-full font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline">Update Where You Are</button>  
+                    <button onclick="getNow()" class="px-4 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-700">Update Where You Are</button>  
                 <div>
                     @if(session('projectId'))
                         <p id="dispatched_project_id" value="{{ session('projectId') }}">Selected Project ID: {{ session('projectId') }}</p>
