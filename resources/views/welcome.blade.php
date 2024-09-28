@@ -19,14 +19,14 @@
                     <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
                         <div class="flex items-center">
                           <img src="/storage/img/logo_01.png" class="w-1/5" alt="logo">
-                          <p class="text-3xl ml-4">Structural Design Map</p>
+                          <p class="text-3xl ml-4  dark:text-gray-400">Structural Design Map</p>
                         </div>
                         @if (Route::has('login'))
                             <nav class="-mx-3 flex flex-1 justify-end">
                                 @auth
                                     <a
                                         href="{{ url('/dashboard') }}"
-                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-gray-400 dark:hover:text-gray-800 dark:focus-visible:ring-white"
                                     >
                                         Dashboard
                                     </a>
