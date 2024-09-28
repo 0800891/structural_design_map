@@ -21,7 +21,7 @@
             @csrf
             <div class="mx-10 flex">
             <select id="select_company" name="company_id" class="form-input rounded-lg shadow-sm w-full">
-                <option value="1" {{ request('company_id') == 1 ? 'selected' : '' }}>ALL Company</option>
+                <option value="1" {{ request('company_id') == 1 ? 'selected' : '' }}>ALL Companies</option>
                 @foreach($companies as $company)
                 @if($company->id>1)
                     <option value="{{ $company->id }}" {{ request('company_id') == $company->id ? 'selected' : '' }}>
