@@ -6,20 +6,20 @@
     </x-slot>
 
         <!-- Search Form -->
-        <div class="py-4">
+        <div class="py-2 max-w-7xl  mx-auto sm:px-6 lg:px-8">
           <form action="{{ route('projects.openai_search') }}" method="GET">
             @csrf
-            <div class="mx-10 flex">
+            <div class="flex">
                 <input type="text" name="search_query" class="form-input rounded-lg shadow-sm w-full" placeholder="Search for projects with Chat gpt-4o-mini...">
                 <button type="submit" class="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700">Search</button>
             </div>
         </form>
       </div>
 
-      <div class="py-4">
+      <div class="py-2 max-w-7xl  mx-auto sm:px-6 lg:px-8">
         <form action="{{ route('projects.index') }}" method="GET">
             @csrf
-            <div class="mx-10 flex">
+            <div class="flex">
             <select id="select_company" name="company_id" class="form-input rounded-lg shadow-sm w-full">
                 <option value="1" {{ request('company_id') == 1 ? 'selected' : '' }}>ALL Companies</option>
                 @foreach($companies as $company)
