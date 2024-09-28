@@ -113,6 +113,7 @@
   lightbox.option({
     'resizeDuration': 200,
     'wrapAround': true,
-    'fitImagesInViewport':true
+    'fitImagesInViewport':true,
+    'positionFromTop':10
   })
 </script>
