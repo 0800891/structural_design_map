@@ -76,16 +76,18 @@ class CompanyController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Company $company)
-    {
-        $request->validate([
-            'name' => 'required|max:255',
-            ]);
-    
-            $company->update($request->only('name'));
-    
-            return redirect()->route('companies.show', $company);
-            
-    }
+{
+    // Validate the input, ensuring the company name is unique except for the current company
+    $request->validate([
+        'name' => 'required|max:255|unique:companies,name,' . $company->id,
+        'homepage' => 'nullable|url|max:255', // homepage is optional, but if provided, it must be a valid URL
+    ]);
+
+    // Update the company with both name and homepage
+    $company->update($request->only(['name', 'homepage']));
+
+    return redirect()->route('companies.show', $company)->with('success', 'Company updated successfully!');
+}
 
     /**
      * Remove the specified resource from storage.
