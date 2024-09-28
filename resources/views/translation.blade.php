@@ -18,8 +18,8 @@
     <p hidden><strong>Original Text:</strong></p>
     <p hidden>{{ $sentence }}</p>
 
-    <p class="p-4"><strong>Translated to {{ $target_lang }}:</strong></p>
-    <p class="p-4">{{ $translated_text }}</p>
+    <p class="p-4 text-gray-600 dark:text-gray-400 "><strong>Translated to {{ $target_lang }}:</strong></p>
+    <p class="p-4 text-gray-600 dark:text-gray-400 ">{{ $translated_text }}</p>
 
     <a href="{{ url()->previous() }}" class="text-blue-500 p-4">Go Back</a>
           </div>
