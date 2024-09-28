@@ -21,6 +21,12 @@ class ProjectController extends Controller
     // Fetch all companies for the dropdown
     $companies = Company::all();
 
+     // Sort companies alphabetically using a collator for locale-aware sorting
+     $collator = new \Collator('ja_JP'); // Set locale to Japanese
+     $sortedCompanies = $companies->sort(function($a, $b) use ($collator) {
+         return $collator->compare($a->name, $b->name);
+     });
+
     // If "All Company" is selected, show all projects; otherwise, filter by company
     if ($company_id == 1) {
         $projects = Project::with(['company', 'liked'])->latest()->get();
@@ -31,13 +37,12 @@ class ProjectController extends Controller
             ->get();
     }
 
-    // Sort the collection using the collator (set locale to Japanese)
-    $collator = new \Collator('ja_JP');
+    // Sort the projects alphabetically as well
     $sortedProjects = $projects->sort(function($a, $b) use ($collator) {
         return $collator->compare($a->name, $b->name);
     });
 
-    return view('projects.index', ['projects' => $sortedProjects, 'companies' => $companies, 'selectedCompanyId' => $company_id]);
+    return view('projects.index', ['projects' => $sortedProjects, 'companies' => $sortedCompanies, 'selectedCompanyId' => $company_id]);
 }
 
     /**
