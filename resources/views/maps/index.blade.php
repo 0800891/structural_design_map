@@ -232,8 +232,8 @@
                                             content: '<div>Project Name:<a href='+markerData[i]['project_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[i]['Building_name'] + '</a></div>' +
                                                      '<div class="map">Structural Designer:<a href='+markerData[i]['company_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[j]['name'] + '</a></div>'+
                                                     //  '<div>Structural Design Code:' + markerData[i]['design_code'] + 
-                                                    '<img src="' + assetBaseUrl + markerData[i]['dc_image'] + '" style="width:50%"></div>'+
-                                                    '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:50%"></div>'
+                                                    '<img class="m-2 p-2" src="' + assetBaseUrl + markerData[i]['dc_image'] + '" style="width:50%"></div>'+
+                                                    '<img class="m-2 p-2" src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:50%"</div>'
                                                     //  '<div class="map">構造設計者名:<br>' + temp + '</div>'
                                             });
                                         marker[i].setOptions({
@@ -265,8 +265,8 @@
                                             content: '<div>建物名称:<a href='+markerData[i]['project_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[i]['Building_name'] + '</a></div>' +
                                                      '<div class="map">構造設計者名:<a href='+markerData[i]['company_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[j]['name'] + '</a></div>'+
                                                     //  '<div>Structural Design Code:' + markerData[i]['design_code'] + 
-                                                    '<img src="' + assetBaseUrl + markerData[i]['dc_image'] + '" style="width:50%"></div>'+
-                                                    '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:50%"></div>'
+                                                    '<img class="m-2 p-2" src="' + assetBaseUrl + markerData[i]['dc_image'] + '" style="width:50%"></div>'+
+                                                    '<img class="m-2 p-2" src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:50%"></div>'
                                                     //  '<div class="map">構造設計者名:<br>' + temp + '</div>'
                                             });
                                         marker[i].setOptions({
