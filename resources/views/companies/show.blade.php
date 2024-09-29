@@ -11,11 +11,11 @@
           <div class="p-6 text-gray-900 dark:text-gray-100">
             <a href="{{ route('companies.index') }}" class="text-blue-500 hover:text-blue-700 mr-2">Back to Companies List</a>
             {{-- <p class="text-gray-800 dark:text-gray-300 text-lg">{{ $company->id }}</p> --}}
-            <div class="flex">
-            <p class="text-gray-600 dark:text-gray-400 text-lg">Name: {{ $company->name }}</p>
-            
+            <div>
+            <p class="text-gray-600 dark:text-gray-400 text-lg">{{ $company->name }}</p>
+            @if($company->homepage)
               <p class="px-6 text-gray-600 dark:text-gray-400 text-lg">( <a href="{{$company->homepage}}" class=" text-blue-500 hover:text-blue-700 ">{{$company->homepage}}</a> )</p>
-            
+            @endif
             </div>
             <div class="py-2">
               <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
