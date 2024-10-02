@@ -121,7 +121,8 @@
                         </div>
                     </main>
 
-                    <footer class="py-16 text-center text-sm text-black dark:text-white/70">
+                    <footer class="py-16 text-center text-sm text-black dark:text-gray-500">
+                        <small>&copy; 2024 aurinko LLC</small>
                     </footer>
                 </div>
             </div>
