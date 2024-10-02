@@ -122,7 +122,7 @@
                     </main>
 
                     <footer class="py-16 text-center text-sm text-black dark:text-gray-500">
-                        <small>&copy; 2024 aurinko LLC</small>
+                        <small>&copy; 2024 Kohsaku Mitsuhashi</small>
                     </footer>
                 </div>
             </div>
