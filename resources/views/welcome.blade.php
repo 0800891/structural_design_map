@@ -68,7 +68,7 @@
                                     <div id="docs-card-content" class="flex items-start gap-6 lg:flex-col">
                                         <div class="pt-3 sm:pt-5 lg:pt-0">
                                             <p class="mt-2 text-xl/relaxed">
-                                                In Structural Design Map<br> you can find inspiring structural desing stories and register cool projects with your innovative strucural design.
+                                                In Structural Design Map<br> you can find inspiring structural desing stories and register projects with your innovative strucural design.
                                             </p>
                                         </div>
                                     </div>
