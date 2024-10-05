@@ -110,7 +110,7 @@
                                 
                                 <div class="pt-3 sm:pt-3">
                                     <h2 class="text-xl font-semibold text-black dark:text-white">
-                                         Bookmark Projetcs You liked
+                                         Bookmark Your Favorite Projetcs
                                     </h2>
 
                                     <p class="mt-2 text-sm/relaxed">
