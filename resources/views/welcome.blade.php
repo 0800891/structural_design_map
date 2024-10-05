@@ -114,7 +114,7 @@
                                     </h2>
 
                                     <p class="mt-2 text-sm/relaxed">
-                                        If you find your favorite projects, do not miss pressing "like" button shown in the bottom-most. By doing so, only your liked projects are shown in "Dashboard".
+                                        If you find your favorite projects, do not miss pressing "like" button shown in the bottom-most. By doing so, only your favorite projects are shown in "Dashboard".
                                     </p>
                                 </div>
                             </div>
