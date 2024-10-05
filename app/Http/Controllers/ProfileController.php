@@ -21,7 +21,10 @@ class ProfileController extends Controller
     {
         // Eager load the 'company' relation on the user model
         $user = $request->user()->load('company');
-        $companies = Company::all();
+         // Get all companies and sort them alphabetically
+        $companies = Company::all()->sortBy(function($company) {
+        return strtolower($company->name); // Sort in a case-insensitive manner
+        });
 
         return view('profile.edit', compact('user', 'companies'));
     }
