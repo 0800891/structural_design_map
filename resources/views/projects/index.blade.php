@@ -57,7 +57,7 @@
               <form action="{{ route('projects.dislike', $project) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="text-red-500 hover:text-red-700">like {{$project->liked->count()}}</button>
+                <button type="submit" class="text-red-500 hover:text-red-700">Like {{$project->liked->count()}}</button>
               </form>
               @else
               <form action="{{ route('projects.like', $project) }}" method="POST">
