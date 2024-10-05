@@ -55,7 +55,7 @@
             {{-- <x-text-input id="company_id" name="company_id" type="" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />--}}
             {{-- $company_id_list=[]; --}}
             
-            @foreach($companies as $company)
+            @foreach($sortedCompanies as $company)
                 {{-- array_push($company_id_list,$company->id); --}}
                 {{-- <option value="{{ $company->id }}">{{ $company->name }}</option> --}}
                 <option value="{{ $company->id }}" {{ $company->id == $user->company_id? 'selected':'' }}>

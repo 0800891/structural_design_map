@@ -21,8 +21,13 @@ class RegisteredUserController extends Controller
     public function create(): View
     {
         // return view('auth.register');
-        $companies = Company::all(); // Fetch all companies
-        return view('auth.register', compact('companies'));
+        $companies = Company::all(); // Fetch all companies/
+    //      // Move "NONE" to the top and sort the rest alphabetically
+        $sortedCompanies = $companies->sortBy(function ($company) {
+        return $company->name === "NONE" ? "" : strtolower($company->name);
+    });
+
+        return view('auth.register', compact('sortedCompanies'));
     }
 
     /**
