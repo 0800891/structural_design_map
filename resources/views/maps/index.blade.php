@@ -52,8 +52,10 @@
                     @endif
                 </div>
 
-
+                <script src="https://unpkg.com/@googlemaps/markerclusterer@latest/dist/index.min.js"></script>
+               
                     <script>
+                        // import { MarkerClusterer } from "@googlemaps/markerclusterer";
                         let companyId = {{ $companies[0]->id }};
                         const select_company = document.getElementById("select_company");
                         if (document.getElementById("dispatched_project_id") != null) {
@@ -157,7 +159,6 @@
                             let markerData = []; // Define your markerData here
                             let marker =[];
                             let infoWindow =[];
-                    
                             // Prepare the list of promises for fetching coordinates
                             // let promises = phpArray_project.map(project => getCoordinates(project.address));
                     
@@ -202,7 +203,8 @@
                                 var mapLatLng = new google.maps.LatLng({lat: Number(current_position_latitude), lng: Number(current_position_longitude)});
                                 var map = new google.maps.Map(document.getElementById('map'), {
                                     center: mapLatLng, 
-                                    zoom: 15 
+                                    zoom: 15, 
+                                    mapId: "DEMO_MAP_ID" // Map ID is required for advanced markers.
                                 });
                             
                         
@@ -216,9 +218,11 @@
                                     if(Number(select_company.value)===1){
 
                                         var markerLatLng = new google.maps.LatLng({lat: markerData[i]['lat'], lng: markerData[i]['lng']});
-                                        marker[i] = new google.maps.Marker({
+                                        marker[i] = new google.maps.marker.AdvancedMarkerElement({
+                                            map,
                                             position: markerLatLng,
-                                            map: map
+                                            title: markerData[i].Building_name,
+                                            content: document.createElement("div"), // Add custom marker styling or content here if needed
                                         });
                                         var assetBaseUrl = "{{ asset('') }}";
                                         assetBaseUrl = assetBaseUrl.replace(/\/$/, "");
@@ -236,25 +240,37 @@
                                                     '<img class="m-2 p-2" src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:50%"</div>'
                                                     //  '<div class="map">構造設計者名:<br>' + temp + '</div>'
                                             });
-                                        marker[i].setOptions({
-                                        icon: {
-                                            //  url: markerData[i]['icon'],
-                                            url:assetBaseUrl + markerData[i]['dc_image'],
-                                            scaledSize: new google.maps.Size(30, 30)
-                                            },
-                                        optimized: false 
-                                        });
-                                        markerEvent(i);
+                                        // marker[i].setOptions({
+                                        // icon: {
+                                        //     //  url: markerData[i]['icon'],
+                                        //     url:assetBaseUrl + markerData[i]['dc_image'],
+                                        //     scaledSize: new google.maps.Size(30, 30)
+                                        //     },
+                                        // optimized: false 
+                                        // });
+                                         // Customize the icon directly if needed
+                                        marker[i].content.classList.add("custom-marker");
+                                        marker[i].content.innerHTML = `<img src="${assetBaseUrl + markerData[i]['dc_image']}" style="width:30px;height:30px;">`;
+                                        // markerEvent(i);
+                                        marker[i].content.addEventListener("click", () => {
+                                             infoWindow[i].open({
+                                                    anchor: marker[i],
+                                                    map,
+                                                    shouldFocus: false
+                                                });
+                                            });
                                         }
                                         else{
                                         if(Number(markerData[i]['company_id'])===Number(select_company.value)){
                                                 var markerLatLng = new google.maps.LatLng({lat: markerData[i]['lat'], lng: markerData[i]['lng']});
-                                        marker[i] = new google.maps.Marker({
+                                        marker[i] = new google.maps.marker.AdvancedMarkerElement({
+                                            map,
                                             position: markerLatLng,
-                                            map: map
+                                            title: markerData[i].Building_name,
+                                            content: document.createElement("div"), // Add custom marker styling or content here if needed
                                         });
-                                        var assetBaseUrl = "{{ asset('') }}";
-                                        assetBaseUrl = assetBaseUrl.replace(/\/$/, "");
+                                        // var assetBaseUrl = "{{ asset('') }}";
+                                        // assetBaseUrl = assetBaseUrl.replace(/\/$/, "");
                                         var temp = markerData[i]['name'] + '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:20%">';
                                         for (var j=0;j < i; j++){
                                         if(markerData[j]['Building_name']==markerData[i]['Building_name']){
@@ -269,16 +285,26 @@
                                                     '<img class="m-2 p-2" src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:50%"></div>'
                                                     //  '<div class="map">構造設計者名:<br>' + temp + '</div>'
                                             });
-                                        marker[i].setOptions({
-                                        icon: {
-                                            //  url: markerData[i]['icon'],
-                                            url:assetBaseUrl + markerData[i]['dc_image'],
-                                            scaledSize: new google.maps.Size(30, 30)
-                                            },
-                                        optimized: false 
-                                        });
-                                        markerEvent(i);}
-                                        
+                                        // marker[i].setOptions({
+                                        // icon: {
+                                        //     //  url: markerData[i]['icon'],
+                                        //     url:assetBaseUrl + markerData[i]['dc_image'],
+                                        //     scaledSize: new google.maps.Size(30, 30)
+                                        //     },
+                                        // optimized: false 
+                                        // });
+                                        // markerEvent(i);}
+                                         // Customize the icon directly if needed
+                                         marker[i].content.classList.add("custom-marker");
+                                        marker[i].content.innerHTML = `<img src="${assetBaseUrl + markerData[i]['dc_image']}" style="width:30px;height:30px;">`;
+                                        // markerEvent(i);
+                                        marker[i].content.addEventListener("click", () => {
+                                             infoWindow[i].open({
+                                                    anchor: marker[i],
+                                                    map,
+                                                    shouldFocus: false
+                                                });
+                                            });}
 
                                         }
                                     }
@@ -288,10 +314,10 @@
                                     if(document.getElementById("dispatched_project_id")!=null){
 
                                     }else{
-                                    marker[i] = new google.maps.Marker({
+                                    marker[i] = new google.maps.marker.AdvancedMarkerElement({
+                                        map:map,
                                         position: markerLatLng,
-                                        map: map
-                                    });
+                                        });
                                 };
                                     const opts = {
                                         zoom:13,
@@ -307,12 +333,16 @@
                                 }
                                 console.log("CP05",current_position_latitude, current_position_longitude);
 
-                                function markerEvent(i) {
-                                    marker[i].addListener('click', function() { // マーカーをクリックしたとき
-                                    infoWindow[i].open(map, marker[i]); // 吹き出しの表示
-                                    });
-                                }
-                               
+                                // function markerEvent(i) {
+                                //     marker[i].addListener('click', function() { // マーカーをクリックしたとき
+                                //     infoWindow[i].open(map, marker[i]); // 吹き出しの表示
+                                //     });
+                                // }
+                                // クラスターを生成
+                        let markerCluster = new markerClusterer.MarkerClusterer({
+	                            map: map,
+	                            markers: marker,
+                            });
                             }
                         
                     
@@ -342,14 +372,16 @@
                             console.log("CP07",current_position_latitude, current_position_longitude);
                         };
                     </script>
+                     <script async defer
+                     src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_map.gm_api_key') }}&callback=initMap&v=weekly&libraries=marker">
+                     // src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_map.gm_api_key') }}&v=weekly&libraries=marker">
+                     </script>
                     
 {{-- 
                     <script src="{{ asset('/js/showmap.js') }}"></script>
                     <script type="module" src={{"/js/index.js"}}></script> --}}
                     {{-- <script>var google_map_api = Google_map('{{ config('services.google_map.gm_api_key') }}');</script> --}}
-                    <script async defer
-                        src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_map.gm_api_key') }}&callback=initMap">
-                    </script>
+
                 </div>
             </div>
         </div>
