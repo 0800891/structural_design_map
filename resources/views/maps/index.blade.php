@@ -51,8 +51,6 @@
                         <p hidden>No project selected.</p>
                     @endif
                 </div>
-
-
                     <script>
                         let companyId = {{ $companies[0]->id }};
                         const select_company = document.getElementById("select_company");
