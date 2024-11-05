@@ -218,7 +218,7 @@
                                             position: markerLatLng,
                                             title: String(i),
                                             // gmpClickable:true,
-                                            zIndex: null,
+                                            // zIndex: null,
                                         });
                                         marker_array[i]=marker;
                                         console.log('marker.title',marker.title);
@@ -226,10 +226,7 @@
                                         // marker[i].addListener("click", ({ domEvent, latLng }) => {
                                             marker.addListener("click", ({ domEvent, latLng }) => {
                                             const { target } = domEvent;
-                                            let ss=i-2;
-                                            
-                                            console.log(ss);
-                                                toggleHighlight(marker);
+                                            setTimeout(toggleHighlight(marker),10000);
                                             });
 
 
@@ -254,7 +251,7 @@
                                             position: markerLatLng,
                                             title: String(i),
                                             // gmpClickable:true,
-                                            zIndex: null,
+                                            // zIndex: null,
                                         });
                                         marker_array[i]=marker;
 
@@ -263,10 +260,7 @@
                                         // marker[i].addListener("click", ({ domEvent, latLng }) => {
                                             marker.addListener("click", ({ domEvent, latLng }) => {
                                             const { target } = domEvent;
-                                            let ss=i-2;
-                                            
-                                            console.log(ss);
-                                                toggleHighlight(marker);
+                                            toggleHighlight(marker);
                                             });
                                         var temp = markerData[i]['name'] + '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:20%">';
                                         for (var j=0;j < i; j++){
@@ -342,11 +336,14 @@
                                 console.log("toggle_C");
                                 return};
 
-                                if (markerView.content.classList.contains("highlight")) {
-                                        markerView.content.classList.remove("highlight");
-                                        markerView.zIndex = null;
+                                if (markerView.content.classList.contains("highlight") && markerView.zIndex == 1) {
+                                        
+                                        markerView.zIndex = 0;
                                         console.log("toggle_A");
-                                } else {
+                                }else if(markerView.content.classList.contains("highlight") && markerView.zIndex == 0){
+                                    markerView.content.classList.remove("highlight");
+                                    console.log("toggle_D");
+                                }else {
                                         markerView.content.classList.add("highlight");
                                         markerView.zIndex = 1;
                                         console.log("toggle_B");
