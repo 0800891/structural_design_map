@@ -56,7 +56,7 @@
     transform: translate(-50%, 0);
     transition: all 0.3s ease-out;
     width: 0;
-    z-index: 1;
+    z-index: 0;
   }
   
   .property .icon {
@@ -116,6 +116,7 @@
   
   .property.highlight::after {
     border-top: 9px solid #FFFFFF;
+    z-index: 1;
   }
   
   .property.highlight .details {

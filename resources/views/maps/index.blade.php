@@ -303,6 +303,7 @@
                         let markerCluster = new markerClusterer.MarkerClusterer({
 	                            map: map,
 	                            markers: marker_array,
+                                zIndex:0,
                             });
                             }
                         
