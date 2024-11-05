@@ -375,10 +375,10 @@
                                                         </div>
                                                         <div class="features">
                                                             <div>
-                                                            <img class="m-2 p-2" src="${assetBaseUrl + property.dc_image}" style="width:100px;hight:100px;">
+                                                            <img class="m-2 p-2" src="${assetBaseUrl + property.dc_image}" style="width:100px">
                                                             </div>
                                                             <div>
-                                                            <img class="m-2 p-2" src="${assetBaseUrl + property.icon}" style="width:100px;hight:100px;">
+                                                            <img class="m-2 p-2" src="${assetBaseUrl + property.icon}" style="width:100px">
                                                             </div>
                                                         </div>
                                                 </div>
