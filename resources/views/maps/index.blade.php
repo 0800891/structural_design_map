@@ -366,13 +366,14 @@
                                                 <div class="icon">
                                                         <img src="${assetBaseUrl + property.dc_image}" style="width:40px;height:40px;">
                                                 </div>
+                                                
+                                                <div>
+                                                    Project Name:<a href=${property.project_url} class="text-blue-500 hover:text-blue-700 mr-2 text-sm">${property.Building_name}</a>
+                                                </div>
+                                                <div>
+                                                        Structural Designer:<a href=${property.company_url} class="text-blue-500 hover:text-blue-700 mr-2 text-sm">${property.name}</a>
+                                                </div>
                                                 <div class="details">
-                                                        <div>
-                                                            Project Name:<a href=${property.project_url} class="text-blue-500 hover:text-blue-700 mr-2 text-sm">${property.Building_name}</a>
-                                                        </div>
-                                                        <div>
-                                                                Structural Designer:<a href=${property.company_url} class="text-blue-500 hover:text-blue-700 mr-2 text-sm">${property.name}</a>
-                                                        </div>
                                                         <div class="features">
                                                             <div>
                                                             <img class="m-2 p-2" src="${assetBaseUrl + property.dc_image}" style="width:100px;hight:100px;">
