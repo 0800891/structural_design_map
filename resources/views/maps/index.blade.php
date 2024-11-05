@@ -5,7 +5,9 @@
             {{ __('Structural Design Map') }}
         </h2>
     </x-slot>
-
+<head>
+    <link rel="stylesheet" type="text/css" href="{{asset('css/style.css')}}" />
+</head>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -51,8 +53,13 @@
                         <p hidden>No project selected.</p>
                     @endif
                 </div>
+
+                <script src="https://unpkg.com/@googlemaps/markerclusterer@latest/dist/index.min.js"></script>
+               
                     <script>
                         let companyId = {{ $companies[0]->id }};
+                        let markerData = []; // Define your markerData here
+                        let marker_array =[];
                         const select_company = document.getElementById("select_company");
                         if (document.getElementById("dispatched_project_id") != null) {
                             const dispatched_project_element = document.getElementById("dispatched_project_id");
@@ -61,16 +68,9 @@
                             console.log("dispatched_project_id", Number(projectIdText));
                         }
                         let url = "{{ route('companies.show', ':id') }}".replace(':id', companyId);
-                        // console.log(url);
-                        // let company_selection = document.getElementById("{{ route('companies.show',':id') }}".replace(':id',companyies[0]->name));
+                        
                         console.log("select_company value", select_company.value);
         
-
-                        // function buttonClick(){
-                        // console.log('選択されているのは ' + select_company.value + ' です');
-                        // }
-                        // let checkButton = document.getElementById('btn_company');
-                        // checkButton.addEventListener('click', buttonClick);
                     
                         let phpArray_project = {!! $jsonData !!};
                         console.log(phpArray_project[0].company.id);
@@ -152,17 +152,12 @@
                         }
                     
                         async function initMap() {
-                            let markerData = []; // Define your markerData here
-                            let marker =[];
+                            const { Map, InfoWindow } = await google.maps.importLibrary("maps");
+                            const { AdvancedMarkerElement, PinElement} = await google.maps.importLibrary("marker"); 
+                            const {AdvancedMarkerClickEvent} = await google.maps.importLibrary("marker");
+                            // let markerData = []; // Define your markerData here
+                            // let marker =[];
                             let infoWindow =[];
-                    
-                            // Prepare the list of promises for fetching coordinates
-                            // let promises = phpArray_project.map(project => getCoordinates(project.address));
-                    
-                            // Wait for all the getCoordinates() promises to resolve
-                            // let coordinates = await Promise.all(promises);
-                    
-                            // Process the coordinates and prepare the markerData array
                             for (let i = 0; i < phpArray_project.length; i++) {
                                 markerData[i] = {
                                     name: phpArray_project[i].company.name,
@@ -198,14 +193,16 @@
                                 
                                 // var mapLatLng = new google.maps.LatLng({lat: markerData.slice(-1)[0]['lat'], lng: markerData.slice(-1)[0]['lng']}); 
                                 var mapLatLng = new google.maps.LatLng({lat: Number(current_position_latitude), lng: Number(current_position_longitude)});
-                                var map = new google.maps.Map(document.getElementById('map'), {
+                                var map = new Map(document.getElementById('map'), {
                                     center: mapLatLng, 
-                                    zoom: 15 
+                                    zoom: 13, 
+                                    mapId: "73684a44fd9dc703", // Map ID is required for advanced markers.
                                 });
                             
                         
                             // Add markers
                             for (var i = 0; i < markerData.length; i++) {
+                                console.log("i,phpArray_project.length=",i, phpArray_project.length);
 
                                     if(i<phpArray_project.length){
                                         let k = select_company.value;
@@ -214,71 +211,74 @@
                                     if(Number(select_company.value)===1){
 
                                         var markerLatLng = new google.maps.LatLng({lat: markerData[i]['lat'], lng: markerData[i]['lng']});
-                                        marker[i] = new google.maps.Marker({
+                                        // marker[i] = new google.maps.marker.AdvancedMarkerElement({
+                                        const marker = new google.maps.marker.AdvancedMarkerElement({
+                                            map,
+                                            content: buildContent(markerData[i])|| null, // Add custom marker styling or content here if needed
                                             position: markerLatLng,
-                                            map: map
+                                            title: String(i),
+                                            // gmpClickable:true,
+                                            zIndex: null,
                                         });
+                                        marker_array[i]=marker;
+                                        console.log('marker.title',marker.title);
+
+                                        // marker[i].addListener("click", ({ domEvent, latLng }) => {
+                                            marker.addListener("click", ({ domEvent, latLng }) => {
+                                            const { target } = domEvent;
+                                            let ss=i-2;
+                                            
+                                            console.log(ss);
+                                                toggleHighlight(marker);
+                                            });
+
+
                                         var assetBaseUrl = "{{ asset('') }}";
                                         assetBaseUrl = assetBaseUrl.replace(/\/$/, "");
                                         var temp = markerData[i]['name'] + '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:20%">';
+                                        
                                         for (var j=0;j < i; j++){
                                         if(markerData[j]['Building_name']==markerData[i]['Building_name']){
                                             temp = temp + '<br>' + markerData[j]['name']+'<div><img src="' + assetBaseUrl + markerData[j]['icon'] + '" style="width:20%"></div>'
                                             }
                                         }
-                                        infoWindow[i] = new google.maps.InfoWindow({
-                                            content: '<div>Project Name:<a href='+markerData[i]['project_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[i]['Building_name'] + '</a></div>' +
-                                                     '<div class="map">Structural Designer:<a href='+markerData[i]['company_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[j]['name'] + '</a></div>'+
-                                                    //  '<div>Structural Design Code:' + markerData[i]['design_code'] + 
-                                                    '<img class="m-2 p-2" src="' + assetBaseUrl + markerData[i]['dc_image'] + '" style="width:50%"></div>'+
-                                                    '<img class="m-2 p-2" src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:50%"</div>'
-                                                    //  '<div class="map">構造設計者名:<br>' + temp + '</div>'
-                                            });
-                                        marker[i].setOptions({
-                                        icon: {
-                                            //  url: markerData[i]['icon'],
-                                            url:assetBaseUrl + markerData[i]['dc_image'],
-                                            scaledSize: new google.maps.Size(30, 30)
-                                            },
-                                        optimized: false 
-                                        });
-                                        markerEvent(i);
+                                        
                                         }
                                         else{
                                         if(Number(markerData[i]['company_id'])===Number(select_company.value)){
                                                 var markerLatLng = new google.maps.LatLng({lat: markerData[i]['lat'], lng: markerData[i]['lng']});
-                                        marker[i] = new google.maps.Marker({
+                                        // marker[i] = new google.maps.marker.AdvancedMarkerElement({
+                                        const  marker = new google.maps.marker.AdvancedMarkerElement({
+                                            map,
+                                            content: buildContent(markerData[i])|| null, // Add custom marker styling or content here if needed
                                             position: markerLatLng,
-                                            map: map
+                                            title: String(i),
+                                            // gmpClickable:true,
+                                            zIndex: null,
                                         });
-                                        var assetBaseUrl = "{{ asset('') }}";
-                                        assetBaseUrl = assetBaseUrl.replace(/\/$/, "");
+                                        marker_array[i]=marker;
+
+                                        console.log('marker.title',marker.title);
+
+                                        // marker[i].addListener("click", ({ domEvent, latLng }) => {
+                                            marker.addListener("click", ({ domEvent, latLng }) => {
+                                            const { target } = domEvent;
+                                            let ss=i-2;
+                                            
+                                            console.log(ss);
+                                                toggleHighlight(marker);
+                                            });
                                         var temp = markerData[i]['name'] + '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:20%">';
                                         for (var j=0;j < i; j++){
                                         if(markerData[j]['Building_name']==markerData[i]['Building_name']){
                                             temp = temp + '<br>' + markerData[j]['name']+'<div><img src="' + assetBaseUrl + markerData[j]['icon'] + '" style="width:20%"></div>'
                                             }
                                         }
-                                        infoWindow[i] = new google.maps.InfoWindow({
-                                            content: '<div>建物名称:<a href='+markerData[i]['project_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[i]['Building_name'] + '</a></div>' +
-                                                     '<div class="map">構造設計者名:<a href='+markerData[i]['company_url']+' class="text-blue-500 hover:text-blue-700 mr-2 text-sm">' + markerData[j]['name'] + '</a></div>'+
-                                                    //  '<div>Structural Design Code:' + markerData[i]['design_code'] + 
-                                                    '<img class="m-2 p-2" src="' + assetBaseUrl + markerData[i]['dc_image'] + '" style="width:50%"></div>'+
-                                                    '<img class="m-2 p-2" src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:50%"></div>'
-                                                    //  '<div class="map">構造設計者名:<br>' + temp + '</div>'
-                                            });
-                                        marker[i].setOptions({
-                                        icon: {
-                                            //  url: markerData[i]['icon'],
-                                            url:assetBaseUrl + markerData[i]['dc_image'],
-                                            scaledSize: new google.maps.Size(30, 30)
-                                            },
-                                        optimized: false 
-                                        });
-                                        markerEvent(i);}
-                                        
 
                                         }
+                                        }
+
+                                        
                                     }
                                 else{
                                     console.log('current_position');
@@ -286,38 +286,32 @@
                                     if(document.getElementById("dispatched_project_id")!=null){
 
                                     }else{
-                                    marker[i] = new google.maps.Marker({
-                                        position: markerLatLng,
-                                        map: map
-                                    });
-                                };
-                                    const opts = {
-                                        zoom:13,
-                                        center: markerLatLng,
-                                    };
-                                    infoWindow[i] = new google.maps.InfoWindow({
-                                        content: '現在地' 
+                                        const pin = new PinElement({
+                                            scale: 1.0,
                                         });
-                                    // marker[i].setOptions({opts});
-                                    // markerEvent(i);
-                                    // map.setOptions({opts});
+                                    marker = new google.maps.marker.AdvancedMarkerElement({
+                                        map,
+                                        content:pin.element,
+                                        position: markerLatLng,
+                                        });
+                                    // marker_array[i]=marker;
+                                };
+                                    // const opts = {
+                                    //     zoom:13,
+                                    //     center: markerLatLng,
+                                    // };
                                     }
                                 }
                                 console.log("CP05",current_position_latitude, current_position_longitude);
 
-                                function markerEvent(i) {
-                                    marker[i].addListener('click', function() { // マーカーをクリックしたとき
-                                    infoWindow[i].open(map, marker[i]); // 吹き出しの表示
-                                    });
-                                }
-                               
+                                
+                                // クラスターを生成
+                        let markerCluster = new markerClusterer.MarkerClusterer({
+	                            map: map,
+	                            markers: marker_array,
+                            });
                             }
                         
-                    
-                        // Ensure initMap is called after everything is set up
-                        // initMap();
-
-                        // let get_position = 0;
                         const getNow = async () => {
                             window.location.reload();
                             navigator.geolocation.getCurrentPosition(
@@ -339,15 +333,79 @@
                             initMap(); 
                             console.log("CP07",current_position_latitude, current_position_longitude);
                         };
+
+                        function toggleHighlight(markerView) {
+
+                            console.log(markerView);
+                            console.log("toggle_0");
+                            if (!markerView.content){
+                                console.log("toggle_C");
+                                return};
+
+                                if (markerView.content.classList.contains("highlight")) {
+                                        markerView.content.classList.remove("highlight");
+                                        markerView.zIndex = null;
+                                        console.log("toggle_A");
+                                } else {
+                                        markerView.content.classList.add("highlight");
+                                        markerView.zIndex = 1;
+                                        console.log("toggle_B");
+                                }
+                            }
+                            
+                            function buildContent(property) {
+                                let content = document.createElement("div");
+                                let assetBaseUrl = "{{ asset('') }}";
+                                assetBaseUrl = assetBaseUrl.replace(/\/$/, "");
+  
+                                content.classList.add("property");
+                                // content.innerHTML = `
+                                //                 <div class="icon">
+                                //                         <img src="${assetBaseUrl + property.dc_image}" style="width:30px;height:30px;">
+                                //                 </div>
+                                //                 `;
+                                content.innerHTML = `
+                                                <div class="icon">
+                                                        <img src="${assetBaseUrl + property.dc_image}" style="width:40px;height:40px;">
+                                                </div>
+                                                <div class="details">
+                                                        <div class="price">${property.name}</div>
+                                                        <div class="price">
+                                                            Project Name:<a href=${property.project_url} class="text-blue-500 hover:text-blue-700 mr-2 text-sm">${property.Building_name}</a>
+                                                        </div>
+                                                        <div class="price">
+                                                                Structural Designer:<a href=${property.company_url} class="text-blue-500 hover:text-blue-700 mr-2 text-sm">${property.name}</a>
+                                                        </div>
+                                                        <div class="features">
+                                                            <div class="price">
+                                                            <img class="m-2 p-2" src="${assetBaseUrl + property.dc_image}" style="width:100px;hight:100px;">
+                                                            </div>
+                                                            <div class="price">
+                                                            <img class="m-2 p-2" src="${assetBaseUrl + property.icon}" style="width:100px;hight:100px;">
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                                `;
+                                console.log(content);
+                                return content;
+                            }
+
                     </script>
-                    
+                    {{-- <script>
+                        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+                          key: "{{ config('services.google_map.gm_api_key') }}",
+                          v: "beta",
+                          // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+                          // Add other bootstrap parameters as needed, using camel case.
+                        });
+                      </script> --}}
+                      <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+                                ({key: "{{ config('services.google_map.gm_api_key') }}", v: "beta"});</script>
 {{-- 
                     <script src="{{ asset('/js/showmap.js') }}"></script>
                     <script type="module" src={{"/js/index.js"}}></script> --}}
                     {{-- <script>var google_map_api = Google_map('{{ config('services.google_map.gm_api_key') }}');</script> --}}
-                    <script async defer
-                        src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_map.gm_api_key') }}&callback=initMap">
-                    </script>
+
                 </div>
             </div>
         </div>
