@@ -366,18 +366,17 @@
                                                         <img src="${assetBaseUrl + property.dc_image}" style="width:40px;height:40px;">
                                                 </div>
                                                 <div class="details">
-                                                        <div class="price">${property.name}</div>
-                                                        <div class="price">
+                                                        <div>
                                                             Project Name:<a href=${property.project_url} class="text-blue-500 hover:text-blue-700 mr-2 text-sm">${property.Building_name}</a>
                                                         </div>
-                                                        <div class="price">
+                                                        <div>
                                                                 Structural Designer:<a href=${property.company_url} class="text-blue-500 hover:text-blue-700 mr-2 text-sm">${property.name}</a>
                                                         </div>
                                                         <div class="features">
-                                                            <div class="price">
+                                                            <div>
                                                             <img class="m-2 p-2" src="${assetBaseUrl + property.dc_image}" style="width:100px;hight:100px;">
                                                             </div>
-                                                            <div class="price">
+                                                            <div>
                                                             <img class="m-2 p-2" src="${assetBaseUrl + property.icon}" style="width:100px;hight:100px;">
                                                             </div>
                                                         </div>
