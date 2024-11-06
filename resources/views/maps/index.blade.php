@@ -157,7 +157,7 @@
                             const {AdvancedMarkerClickEvent} = await google.maps.importLibrary("marker");
                             // let markerData = []; // Define your markerData here
                             // let marker =[];
-                            let infoWindow =[];
+                            // let infoWindow =[];
                             for (let i = 0; i < phpArray_project.length; i++) {
                                 markerData[i] = {
                                     name: phpArray_project[i].company.name,
@@ -211,7 +211,8 @@
                                     if(Number(select_company.value)===1){
 
                                         var markerLatLng = new google.maps.LatLng({lat: markerData[i]['lat'], lng: markerData[i]['lng']});
-                                        // marker[i] = new google.maps.marker.AdvancedMarkerElement({
+                                        // Create an info window to share between markers.
+                                        const infoWindow = new InfoWindow();
                                         const marker = new google.maps.marker.AdvancedMarkerElement({
                                             map,
                                             content: buildContent(markerData[i])|| null, // Add custom marker styling or content here if needed
@@ -221,12 +222,15 @@
                                             // zIndex: null,
                                         });
                                         marker_array[i]=marker;
-                                        console.log('marker.title',marker.title);
+                                        // console.log('marker.title',marker.title);
 
                                         // marker[i].addListener("click", ({ domEvent, latLng }) => {
                                             marker.addListener("click", ({ domEvent, latLng }) => {
                                             const { target } = domEvent;
-                                            setTimeout(toggleHighlight(marker),10000);
+                                            toggleHighlight(marker);
+                                            // infoWindow.close();
+                                            // infoWindow.setContent(marker.content);
+                                            // infoWindow.open(marker.map, marker);
                                             });
 
 
@@ -243,8 +247,9 @@
                                         }
                                         else{
                                         if(Number(markerData[i]['company_id'])===Number(select_company.value)){
-                                                var markerLatLng = new google.maps.LatLng({lat: markerData[i]['lat'], lng: markerData[i]['lng']});
-                                        // marker[i] = new google.maps.marker.AdvancedMarkerElement({
+                                        var markerLatLng = new google.maps.LatLng({lat: markerData[i]['lat'], lng: markerData[i]['lng']});
+                                        // Create an info window to share between markers.
+                                        const infoWindow = new InfoWindow();
                                         const  marker = new google.maps.marker.AdvancedMarkerElement({
                                             map,
                                             content: buildContent(markerData[i])|| null, // Add custom marker styling or content here if needed
@@ -255,12 +260,15 @@
                                         });
                                         marker_array[i]=marker;
 
-                                        console.log('marker.title',marker.title);
+                                        // console.log('marker.title',marker.title);
 
                                         // marker[i].addListener("click", ({ domEvent, latLng }) => {
                                             marker.addListener("click", ({ domEvent, latLng }) => {
                                             const { target } = domEvent;
                                             toggleHighlight(marker);
+                                            // infoWindow.close();
+                                            // infoWindow.setContent(marker.content);
+                                            // infoWindow.open(marker.map, marker);
                                             });
                                         var temp = markerData[i]['name'] + '<img src="' + assetBaseUrl + markerData[i]['icon'] + '" style="width:20%">';
                                         for (var j=0;j < i; j++){
@@ -331,19 +339,16 @@
 
                         function toggleHighlight(markerView) {
 
-                            console.log(markerView);
+                            // console.log(markerView);
                             console.log("toggle_0");
                             if (!markerView.content){
                                 console.log("toggle_C");
                                 return};
 
-                                if (markerView.content.classList.contains("highlight") && markerView.zIndex == 1) {
-                                        
+                                if (markerView.content.classList.contains("highlight")) {
+                                        markerView.content.classList.remove("highlight");
                                         markerView.zIndex = 0;
                                         console.log("toggle_A");
-                                }else if(markerView.content.classList.contains("highlight") && markerView.zIndex == 0){
-                                    markerView.content.classList.remove("highlight");
-                                    console.log("toggle_D");
                                 }else {
                                         markerView.content.classList.add("highlight");
                                         markerView.zIndex = 1;
