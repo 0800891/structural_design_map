@@ -373,10 +373,10 @@
                                                 </div>
                                                 <div class="details">
                                                         <div>
-                                                            Project Name:<a href="${property.project_url}" class="text-blue-500 hover:text-blue-700 mr-2 text-sm" >${property.Building_name}</a>
+                                                            Project Name: <span class="text-blue-500 hover:text-blue-700 mr-2 text-sm" data-url="${property.project_url}">${property.Building_name}</span>
                                                         </div>
                                                         <div>
-                                                            Structural Designer:<a href="${property.company_url}" class="text-blue-500 hover:text-blue-700 mr-2 text-sm">${property.name}</a>
+                                                            Structural Designer: <span class="text-blue-500 hover:text-blue-700 mr-2 text-sm" data-url="${property.company_url}">${property.name}</span>
                                                         </div>
                                                         <div class="features">
                                                             <div>
@@ -388,6 +388,16 @@
                                                         </div>
                                                 </div>
                                                 `;
+
+                                                // Add touchstart event listener for iOS
+                                            content.querySelectorAll('span[data-url]').forEach(span => {
+                                                span.addEventListener('touchstart', function() {
+                                                    window.location.href = this.getAttribute('data-url');
+                                                });
+                                                span.addEventListener('click', function() {
+                                                    window.location.href = this.getAttribute('data-url');
+                                                });
+                                            });
                                 // console.log(content);
                                 return content;
                             }
