@@ -75,6 +75,7 @@
     display: none;
     flex-direction: column;
     flex: 1;
+    z-index: 2;
   }
   
   .property .address {
@@ -121,13 +122,26 @@
   
   .property.highlight .details {
     display: flex;
+    z-index: 1;
   }
-  
-  .property.highlight .icon svg {
+  .property .details a {
+    pointer-events: auto;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .property.highlight .details a {
+    pointer-events: auto;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .text-blue-500 {
+    padding: 10px 15px;
+    display: inline-block; /* Ensure padding is clickable */
+}
+  .property.highlight .icon{
     /* width: 50px;
     height: 50px; */
-    width: 0px;
-    height: 0px;
+    display: none;
   }
   
   .property .bed {
