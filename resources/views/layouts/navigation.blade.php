@@ -93,14 +93,12 @@
             <x-nav-link :href="route('maps.index')" :active="request()->routeIs('maps.index')">
                 {{ __('Structural Design Map') }}
             </x-nav-link>
-
             <x-responsive-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
                 {{ __('Project List') }}
               </x-responsive-nav-link>
               <x-responsive-nav-link :href="route('projects.create')" :active="request()->routeIs('projects.create')">
                 {{ __('Register New Project') }}
               </x-responsive-nav-link>
-
               <x-responsive-nav-link :href="route('companies.index')" :active="request()->routeIs('companies.index')">
                 {{ __('Company List') }}
               </x-responsive-nav-link>
