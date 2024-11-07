@@ -373,17 +373,17 @@
                                                 </div>
                                                 <div class="details">
                                                         <div>
-                                                            Project Name: <span class="text-blue-500 hover:text-blue-700 mr-2 text-sm" data-url="${property.project_url}">${property.Building_name}</span>
+                                                            Project Name: <span class="text-blue-500 hover:text-blue-700 ml-2 text-sm" data-url="${property.project_url}">${property.Building_name}</span>
                                                         </div>
                                                         <div>
-                                                            Structural Designer: <span class="text-blue-500 hover:text-blue-700 mr-2 text-sm" data-url="${property.company_url}">${property.name}</span>
+                                                            Structural Designer: <span class="text-blue-500 hover:text-blue-700 ml-2 text-sm" data-url="${property.company_url}">${property.name}</span>
                                                         </div>
                                                         <div class="features">
                                                             <div>
-                                                            <img class="m-2 p-2" src="${assetBaseUrl + property.dc_image}" style="width:100px">
+                                                            <img class="m-2 p-2" src="${assetBaseUrl + property.dc_image}" style="width:105px">
                                                             </div>
                                                             <div>
-                                                            <img class="m-2 p-2" src="${assetBaseUrl + property.icon}" style="width:100px">
+                                                            <img class="m-2 p-2" src="${assetBaseUrl + property.icon}" style="width:105px">
                                                             </div>
                                                         </div>
                                                 </div>

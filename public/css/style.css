@@ -29,19 +29,19 @@
    */
   .property {
     align-items: center;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     border-radius: 50%;
     color: #263238;
     display: flex;
     font-size: 14px;
     gap: 15px;
-    height: 50px;
+    height: 60px;
     justify-content: center;
     padding: 4px;
     position: relative;
     position: relative;
     transition: all 0.3s ease-out;
-    width: 50px;
+    width: 60px;
   }
   
   .property::after {
@@ -111,18 +111,21 @@
     border-radius: 8px;
     box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
     height: auto;
-    padding: 8px 15px;
-    width: 300px;
+    /* padding: 8px 8px; */
+    width: 260px;
+    /* justify-content: center; */
   }
   
   .property.highlight::after {
     border-top: 9px solid #FFFFFF;
     z-index: 1;
+    /* justify-content: center; */
   }
   
   .property.highlight .details {
     display: flex;
     z-index: 1;
+    justify-content: center;
   }
   .property .details a {
     pointer-events: auto;
