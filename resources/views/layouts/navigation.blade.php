@@ -107,6 +107,9 @@
               <x-responsive-nav-link :href="route('companies.create')" :active="request()->routeIs('companies.create')">
                 {{ __('Register New Company') }}
               </x-responsive-nav-link>
+              <x-responsive-nav-link :href="route('userguide')" :active="request()->routeIs('userguide')">
+                {{ __('User Guide') }}
+              </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
