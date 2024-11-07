@@ -15,9 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/userguide', function () {
+    return view('userguide');
+})->middleware(['auth', 'verified'])->name('userguide');
     
     Route::middleware('auth')->group(function () {
 
@@ -47,7 +52,6 @@ Route::get('/dashboard', function () {
     Route::delete('/projects/{project}/like', [ProjectLikeController::class, 'destroy'])->name('projects.dislike');
 
     Route::get('/dashboard', [ProjectController::class, 'dashboard'])->name('dashboard');
-
    
     Route::post('/projects/{id}/feedback', [ProjectController::class, 'storeFeedback'])->name('projects.feedback');
 
