@@ -134,10 +134,7 @@
     cursor: pointer;
     z-index: 2;
   }
-  .text-blue-500 {
-    padding: 10px 15px;
-    display: inline-block; /* Ensure padding is clickable */
-}
+
   .property.highlight .icon{
     /* width: 50px;
     height: 50px; */
