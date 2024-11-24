@@ -20,9 +20,13 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/userguide', function () {
-    return view('userguide');
+Route::get('/guide/userguide', function () {
+    return view('guide.userguide');
 })->middleware(['auth', 'verified'])->name('userguide');
+
+Route::get('/guide/guide01', function () {
+    return view('guide01');
+})->middleware(['auth', 'verified'])->name('guide01');
     
     Route::middleware('auth')->group(function () {
 

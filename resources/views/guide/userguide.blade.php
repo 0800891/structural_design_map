@@ -21,10 +21,14 @@
     <div class="py-2">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <h3 class="text-lg font-semibold my-6 px-6">{{ __('Structural Design Map') }}</h3>
+                    <h3 class="text-lg font-semibold my-6 px-6">
+                        <x-nav-link :href="route('guide01')" :active="request()->routeIs('guide01')">
+                        {{ __('Structural Design Map') }}
+                        </x-nav-link>
+                    </h3>
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="overflow-hidden">
-                            "test"
+                            "UNDER CONSTRUCTION"
                         </div>
                     </div>
             </div>
@@ -38,7 +42,7 @@
                 <h3 class="text-lg font-semibold my-6 px-6">{{ __('Project List') }}</h3>
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="overflow-hidden">
-                        "test"
+                        "UNDER CONSTRUCTION"
                     </div>
                 </div>
             </div>
@@ -52,7 +56,7 @@
                 <h3 class="text-lg font-semibold my-6 px-6">{{ __('Register New Project') }}</h3>
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="overflow-hidden">
-                        "test"
+                        "UNDER CONSTRUCTION"
                     </div>
                 </div>
             </div>
@@ -66,7 +70,7 @@
                 <h3 class="text-lg font-semibold my-6 px-6">{{ __('Company List') }}</h3>
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="overflow-hidden">
-                        "test"
+                        "UNDER CONSTRUCTION"
                     </div>
                 </div>
             </div>
@@ -80,7 +84,7 @@
                 <h3 class="text-lg font-semibold my-6 px-6">{{ __('Register New Company') }}</h3>
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="overflow-hidden">
-                        "test"
+                        "UNDER CONSTRUCTION"
                     </div>
                 </div>
             </div>
